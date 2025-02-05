@@ -1,0 +1,29 @@
+[SUBMIT BORROW REQUEST]
+- student id (get)
+- student name (get)
+- course & section (get)
+- subject (INPUT: no course code)
+- teacher (INPUT)
+- user cliassification: 
+    > HM Student
+    > Non-HM Student
+    > PUP Employee 
+- request date (for approval pa kasi)
+- returning date (INPUT)
+- ID to surrender
+
+[QUANTITY SELECTOR]
+- limit should reflect the stock
+- stock is connected to database
+
+[TICKET]
+- signature (HANDWRITTEN)
+- remarks (INPUT: condition of specific item damaged/missing)
+
+
+[TERMS & CONDITIONS]
+- DOUBLE CHECK YOUR LIST OF TOOLS BEFORE SUBMITTING YOUR REQUEST.
+- STRICTLY 1 TRANSACTION PER USER AT A TIME, UNTIL COMPLETION: Each user is strictly allowed one transaction ticket at a time, which must be fully completed before a new ticket can be issued.
+- STRICTLY NO ID, NO PROCESSING: Surrender your PHYSICAL ID and approved ticket to the GIS in-charge to receive borrowed items. 
+- FOR DAMAGED OR MISSING ITEMS: The borrower is responsible for repair or replacement. Please discuss with the GIS in-charge to determine the steps.
+

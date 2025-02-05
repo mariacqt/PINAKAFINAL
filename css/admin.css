@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+.col-md-3{
+    float: right;
+
+}
+img{
+    height: 60px;
+    margin-right: 5px;
+  }
+
+#myChart{
+    width:100%;
+}

@@ -1,0 +1,687 @@
+/* General Styles */
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #061274;
+    padding: 5px 15px; /* Reduced padding */
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header .logo {
+    font-size: 22px; /* Reduced font size */
+    font-weight: bold;
+}
+
+.header .search-bar {
+    width: 100%;
+    max-width: 350px; /* Reduced max-width */
+    flex: 1;
+    margin: 0px 15px; /* Reduced margin */
+    position: relative;
+}
+
+.header .search-bar input {
+    width: 100%;
+    padding: 8px 15px; /* Reduced padding */
+    border: none;
+    border-radius: 5px;
+    font-size: 15px; /* Reduced font size */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.header .search-bar button {
+    position: absolute;
+    right: 0; /* Fixed at the right end */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffcc00;
+    border: none;
+    padding: 8px 12px; /* Reduced padding */
+    cursor: pointer;
+    border-radius: 0 5px 5px 0; /* Rounded right corners */
+}
+
+/* Styling the search icon inside the button */
+.header .search-bar button .search-icon {
+    width: 14.5px;  /* Reduced size of the image */
+    height: 14.5px; /* Reduced size of the image */
+    object-fit: contain;
+}
+
+.header .icons {
+    display: flex;
+    align-items: center; /* Center icons vertically */
+    gap: 15px; /* Reduced gap */
+    cursor: pointer;
+    margin-right: 15px; /* Adjusted margin */
+}
+
+.header .icons img {
+    width: 35px; /* Reduced icon size */
+    height: 35px; /* Reduced icon size */
+}
+
+.header .icons #cart-icon {
+    font-size: 28px; /* Reduced cart icon size */
+    margin-right: -2px; /* Adjusted margin */
+    margin-top: 2px;
+    position: relative; /* Ensure cart count stays within the icon */
+}
+
+.cart-count {
+    position: absolute;
+    top: 13px;
+    right: 8px;
+    color: #6ae651;
+    font-size: 16px; /* Reduced font size */
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; /* Set fixed width */
+    height: 20px; /* Set fixed height */
+}
+
+.header .links {
+    display: flex;
+    gap: 20px; /* Adjusted space between the links */
+    align-items: center; /* Aligns items vertically in the center */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    margin-left: 20px; /* Move links to the right */
+}
+
+.header .links li {
+    display: inline; /* Ensure list items are inline */
+    
+}
+
+.header .flex-container a {
+    text-decoration: none; /* Remove underline */
+    color: white; /* Set font color to white */
+    font-size: 0.9em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.header .links a:hover {
+    transform: scale(1.05);
+    flex-direction: row;
+    color: white;
+}    
+
+
+/* Sidebar */
+.sidebar {
+    width: 150px; /* Reduced width */
+    background-color: #f9f9f9;
+    padding: 10px; /* Reduced padding */
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 1.2em; /* Reduced font size */
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.filter-group {
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.filter-group h3 {
+    margin-bottom: 5px; /* Reduced margin */
+    font-size: 1em; /* Reduced font size */
+}
+
+.filter-group label {
+    display: flex; /* Changed to flex */
+    align-items: center; /* Center-align items */
+    margin-bottom: 5px;
+    font-size: 0.9em; /* Reduced font size */
+}
+
+.filter-group input {
+    margin-right: 5px; /* Reduced margin */
+}
+
+.filter-group input[type="checkbox"] {
+    width: 15px; /* Reduced size */
+    height: 15px; /* Reduced size */
+    margin-right: 5px; /* Reduced margin */
+    cursor: pointer;
+}
+
+.filter-group input[type="checkbox"]:checked {
+    background-color: #012252;
+    border-color: #012252;
+}
+
+.filter-group .clear-btn {
+    display: inline-block;
+    margin-top: 5px; /* Reduced margin */
+    color: black;
+    text-decoration: underline;
+    font-size: 0.8em; /* Reduced font size */
+    cursor: pointer;
+    text-align: center;
+}
+
+.filter-group .clear-btn:hover {
+    transform: scale(1.05); /* Increase size */
+    opacity: 0.8; /* Add slight transparency */
+    text-decoration: underline;
+}
+
+/* Content */
+.content {
+    margin-left: 170px; /* Adjusted margin */
+    padding: 10px 20px; /* Adjusted padding */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Ensure 5 cards per row */
+    gap: 10px; /* Reduced gap */
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    
+    overflow: hidden;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Inter', Arial, sans-serif; /* Ensure Inter font is used */
+    width: 100%; /* Ensure cards take full width of the grid column */
+    height: 300px; /* Set fixed height for uniformity */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card img {
+    max-width: 100%;
+    height: 150px; /* Set fixed height for images */
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    margin: 5px 0; /* Reduced margin */
+    font-style: none;
+    font-size: 16px; /* Reduced font size */
+}
+
+.card .description {
+    font-size: 12px; /* Reduced font size */
+    color: #666;
+    margin: 5px 0 10px 0; /* Adjusted margin to reduce space */
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px 0; /* Reduced margin */
+}
+
+.quantity-selector button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 4px 8px; /* Reduced button size */
+    cursor: pointer;
+    border-radius: 50%; /* Changed shape to circle */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 12px; /* Reduced font size */
+    font-weight: bold;
+}
+
+.quantity-selector button:hover {
+    background-color: #012c5a;
+    transform: scale(1.05); /* Increase size */
+}
+
+.quantity-selector span {
+    margin: 0 5px; /* Reduced margin */
+    font-weight: none;
+}
+
+/* Hover effect for icons */
+.header .icons img {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.header .icons img:hover {
+    transform: scale(1.2); /* Increase size */
+    opacity: 0.8; /* Add slight transparency */
+}
+
+/* Add to Cart Button */
+.add-to-cart-btn {
+    background-color: #ffcc00;
+    color: black;
+    border: none;
+    padding: 8px 10px; /* Reduced padding */
+    font-size: 12px; /* Reduced font size */
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 2px; /* Reduced margin */
+    width: 76%; /* Adjust button width */
+    align-self: center; /* Center the button */
+}
+
+.add-to-cart-btn:hover {
+    transform: scale(1.05);
+    background-color: #e6b800;
+}
+
+/* Popup */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background-color: whitesmoke;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+    color: black;
+}
+
+.popup-content h2 {
+    font-size: 20px; /* Reduced font size */
+    text-align: center;
+    margin: 0; /* Remove margin */
+    background-color: #061274; /* Match header background color */
+    color: white; /* Match header text color */
+    padding: 15px; /* Reduced padding */
+    border-radius: 10px 10px 0 0; /* Rounded top corners */
+}
+
+.popup-content .cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.popup-content .cart-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.popup-content .cart-item span {
+    flex: 1;
+}
+
+.popup-content .cart-item .quantity-selector {
+    flex-shrink: 0;
+    margin-left: 5px; /* Move quantity selectors to the left */
+}
+
+.popup-content #cart-items {
+    margin-top: 20px; /* Added top margin */
+    max-height: 300px; /* Set max height for scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Hide horizontal scrolling */
+}
+
+.popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 22px;
+    background-color: #ff443ef8; /* Match button color */
+    color: black;
+    border: none;
+    border-radius: 50%; /* Make it circular */
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.popup .close:hover {
+    background-color: #ff807cf8; /* Darker on hover */
+}
+
+.popup-content .confirm {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px; /* Match other buttons */
+    transition: background-color 0.3s ease;
+}
+
+.popup-content .confirm:hover {
+    background-color: darkgreen;
+}
+
+.popup-content .cancel {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 5px; /* Match other buttons */
+    transition: background-color 0.3s ease;
+}
+
+.popup-content .cancel:hover {
+    background-color: darkred;
+}
+
+.submit-rental-btn {
+    background-color: #ffcc00;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 20px auto 0; /* Center the button and add margin */
+}
+
+.submit-rental-btn:hover {
+    background-color: #e6b800;
+}
+
+#account-popup .popup-content {
+    background: whitesmoke;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px; /* Increased width */
+    max-height: 80%;
+    overflow: hidden; /* Remove scrollbar */
+    position: relative;
+    float: center;
+}
+
+#account-popup .popup-content h2 {
+    font-size: 22px;
+    text-align: center;
+    margin: 0;
+    background-color: #012252;
+    color: white;
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+}
+
+#account-popup .popup-content div {
+    margin-bottom: 20px; /* Increased bottom margin */
+    margin-top: 15px; /* Increased top margin */
+}
+
+#account-popup .popup-content label {
+    display: block;
+    margin-bottom: 8px; /* Increased margin */
+    font-size: 14px; /* Adjusted font size */
+}
+
+#account-popup .popup-content span {
+    display: block;
+    padding: 12px; /* Increased padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 14px; /* Adjusted font size */
+}
+
+#account-popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 22px;
+    background-color: #ff443ef8;
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+#account-popup .close:hover {
+    background-color: #ff807cf8;
+}
+
+/* Form Popup */
+#form-popup .popup-content {
+    width: 90%;
+    max-width: 500px;
+    max-height: 80%;
+    overflow-y: auto;
+    position: relative;
+}
+
+#form-popup form {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-popup label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#form-popup input[type="text"],
+#form-popup input[type="date"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#form-popup input[type="radio"] {
+    margin-right: 5px;
+}
+
+#form-popup .radio-buttons-container {
+    display: flex;
+    gap: 13px; /* Add gap between radio buttons */
+    margin-bottom: 10px; /* Add margin at the bottom */
+    font-style: normal; /* Set font style to normal */
+}
+
+#form-popup .radio-buttons-container label {
+    font-size: 15px;/* Set font style to normal */
+    font-weight: normal;
+}
+
+#form-popup button {
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+#form-popup button[type="button"]:first-of-type {
+    background-color: green;
+    color: white;
+}
+
+#form-popup button[type="button"]:first-of-type:hover {
+    background-color: darkgreen;
+}
+
+#form-popup button[type="button"]:last-of-type {
+    background-color: red;
+    color: white;
+}
+
+#form-popup button[type="button"]:last-of-type:hover {
+    background-color: darkred;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header .search-bar {
+        width: 100%;
+        margin: 10px 0;
+        max-width: 90%; /* Ensure search bar fits within the window */
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .card {
+        width: 100%;
+        height: auto;
+    }
+
+    .popup-content {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .cart-count {
+        top: 0;
+        right: 0;
+        transform: translate(50%, -50%);
+        width: 20px;
+        height: 20px;
+    }
+    
+}
+
+@media (max-width: 480px) {
+    .header .search-bar {
+        max-width: 90%; /* Make search bar full width */
+        margin: 10px 0; /* Add margin for spacing */
+    }
+
+    .header .search-bar button {
+        right: 0; /* Fixed at the right end */
+        padding: 8px 10px; /* Adjust button padding */
+    }
+}
+
+/* Links and Logout Button */
+.links {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.links a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.links a:hover {
+    color: #033469;
+}
+
+.logout-btn {
+    background-color: #ff443e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background-color: #e63b36;
+}
+.btn-rounded-pill {
+    border-radius: 50px; /* Rounded pill shape */
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 16px; /* Font size */
+    background-color: #007bff; /* Background color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    cursor: pointer; /* Pointer cursor */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Inline block for proper padding */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.btn-rounded-pill:hover {
+    background-color: #0056b3; /* Darker background on hover */
+}

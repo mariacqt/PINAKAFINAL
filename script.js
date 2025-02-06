@@ -11,17 +11,27 @@ const cart = [];
         function increaseQuantity(button) {
             const span = button.previousElementSibling;
             let quantity = parseInt(span.textContent);
-            if (quantity < 50) { // Set limit to 50
+            const maxQuantity = parseInt(button.closest('.card').querySelector('.description').textContent.split(': ')[1]);
+            if (quantity < maxQuantity) {
                 span.textContent = quantity + 1;
             }
         }
     
         function addToCart(category, name, quantity, img) {
             const existing = cart.find(item => item.name === name);
+            const maxQuantity = parseInt(document.querySelector(`.card h3:contains(${name})`).closest('.card').querySelector('.description').textContent.split(': ')[1]);
             if (existing) {
-                existing.quantity += quantity;
+                if (existing.quantity + quantity <= maxQuantity) {
+                    existing.quantity += quantity;
+                } else {
+                    alert(`Cannot add more than ${maxQuantity} items of ${name} to the cart.`);
+                }
             } else {
-                cart.push({ category, name, quantity, img });
+                if (quantity <= maxQuantity) {
+                    cart.push({ category, name, quantity, img });
+                } else {
+                    alert(`Cannot add more than ${maxQuantity} items of ${name} to the cart.`);
+                }
             }
             alert(`${name} has been added to the cart!`); // Optional: Notify the user
             updateTotalQuantity();
@@ -249,4 +259,3 @@ const cart = [];
         $.post('submit_request.php', data, function(response) {
             console.log(response);  // Log the response from the server
         });
-        

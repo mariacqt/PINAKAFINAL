@@ -90,7 +90,7 @@ $result = $conn->query($sql);
                                         echo "<td>" . $row['tool_name'] . "</td>";
                                         echo "<td>" . $row['category'] . "</td>";
                                         echo "<td>" . $row['stock_quantity'] . "</td>";
-                                        echo "<td>" . $row['status'] . "</td>";
+                                        echo "<td>" . ($row['stock_quantity'] == 0 ? 'Out of Stock' : $row['status']) . "</td>";
                                         echo "<td>";
                                         echo "<button class='btn btn-primary btn-sm'>Edit</button> ";
                                         
@@ -149,4 +149,4 @@ $result = $conn->query($sql);
     </body>
 </html>
 
-              
+

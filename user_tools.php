@@ -112,9 +112,9 @@ if ($result_tools->num_rows > 0) {
                 <div class="quantity-selector">
                     <button onclick="decreaseQuantity(this)">-</button>
                     <span>1</span>
-                    <button onclick="increaseQuantity(this)">+</button>
+                    <button onclick="increaseQuantity(this)" <?php echo $tool['stock_quantity'] == 0 ? 'disabled' : ''; ?>>+</button>
                 </div>
-                <button class="add-to-cart-btn" onclick="addToCart('<?php echo $tool['category']; ?>', '<?php echo $tool['tool_name']; ?>', parseInt(this.previousElementSibling.querySelector('span').textContent), '<?php echo $tool['image_url']; ?>')">Add to Basket</button>
+                <button class="add-to-cart-btn" onclick="addToCart('<?php echo $tool['category']; ?>', '<?php echo $tool['tool_name']; ?>', parseInt(this.previousElementSibling.querySelector('span').textContent), '<?php echo $tool['image_url']; ?>')" <?php echo $tool['stock_quantity'] == 0 ? 'disabled' : ''; ?>><?php echo $tool['stock_quantity'] == 0 ? 'Out of Stock' : 'Add to Basket'; ?></button>
             </div>
         <?php endforeach; ?>
     </div>

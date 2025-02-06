@@ -135,7 +135,10 @@ BEGIN
             IF done THEN
                 LEAVE tool_loop;
             END IF;
-            UPDATE tools SET stock_quantity = stock_quantity - tool_quantity WHERE tool_name = tool_name;
+            UPDATE tools 
+            SET stock_quantity = stock_quantity - tool_quantity, 
+                status = IF(stock_quantity - tool_quantity <= 0, 'out_of_stock', status)
+            WHERE tool_name = tool_name;
         END LOOP;
         CLOSE tool_cursor;
     END IF;

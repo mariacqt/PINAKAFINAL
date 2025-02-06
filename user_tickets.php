@@ -24,16 +24,37 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
+// Handle ticket rejection
+if (isset($_POST['reject_ticket_id'])) {
+    $reject_ticket_id = $_POST['reject_ticket_id'];
+    $query_reject = "UPDATE rental_requests SET status = 'Completed', remark = 'Out of Stock' WHERE request_id = ?";
+    $stmt_reject = $conn->prepare($query_reject);
+    $stmt_reject->bind_param("i", $reject_ticket_id);
+    $stmt_reject->execute();
+    header("Location: user_tickets.php");
+    exit();
+}
 
 // Construct queries for different statuses
-$query_pending = "SELECT * FROM rental_requests WHERE status = 'Pending' ORDER BY request_timestamp DESC";
-$query_approved = "SELECT * FROM rental_requests WHERE status = 'Approved' ORDER BY request_timestamp DESC";
-$query_completed = "SELECT * FROM rental_requests WHERE status = 'Completed' ORDER BY request_timestamp DESC";
+$query_pending = "SELECT * FROM rental_requests WHERE status = 'Pending' AND student_id = ? ORDER BY request_timestamp DESC";
+$query_approved = "SELECT * FROM rental_requests WHERE status = 'Approved' AND student_id = ? ORDER BY request_timestamp DESC";
+$query_completed = "SELECT * FROM rental_requests WHERE status = 'Completed' AND student_id = ? ORDER BY request_timestamp DESC";
 
-// Execute queries
-$result_pending = $conn->query($query_pending);
-$result_approved = $conn->query($query_approved);
-$result_completed = $conn->query($query_completed);
+// Prepare and execute queries
+$stmt_pending = $conn->prepare($query_pending);
+$stmt_pending->bind_param("s", $user['student_number']);
+$stmt_pending->execute();
+$result_pending = $stmt_pending->get_result();
+
+$stmt_approved = $conn->prepare($query_approved);
+$stmt_approved->bind_param("s", $user['student_number']);
+$stmt_approved->execute();
+$result_approved = $stmt_approved->get_result();
+
+$stmt_completed = $conn->prepare($query_completed);
+$stmt_completed->bind_param("s", $user['student_number']);
+$stmt_completed->execute();
+$result_completed = $stmt_completed->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -151,6 +172,7 @@ $result_completed = $conn->query($query_completed);
                                 <th>Request Timestamp</th>
                                 <th>Approved Timestamp</th>
                                 <th>Remark</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,6 +190,12 @@ $result_completed = $conn->query($query_completed);
                                     <td><?php echo $row['request_timestamp']; ?></td>
                                     <td><?php echo $row['approved_timestamp'] ?: 'N/A'; ?></td>
                                     <td><?php echo $row['remark'] ?: 'N/A'; ?></td>
+                                    <td>
+                                        <form method="POST" style="display:inline;">
+                                            <input type="hidden" name="reject_ticket_id" value="<?php echo $row['request_id']; ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>

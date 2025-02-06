@@ -119,8 +119,16 @@ foreach ($tools as $tool) {
     }
 }
 
-
-
+// Handle ticket rejection
+if (isset($_POST['reject_ticket_id'])) {
+    $reject_ticket_id = $_POST['reject_ticket_id'];
+    $query_reject = "UPDATE rental_requests SET status = 'Completed', remark = 'Out of Stock', completed_timestamp = NOW() WHERE request_id = ?";
+    $stmt_reject = $conn->prepare($query_reject);
+    $stmt_reject->bind_param("i", $reject_ticket_id);
+    $stmt_reject->execute();
+    header("Location: ticket.php");
+    exit();
+}
 
 ?>
 
@@ -208,12 +216,15 @@ foreach ($tools as $tool) {
                                     <td><?php echo htmlspecialchars($ticket['request_timestamp']); ?></td>
                                     <td>Pending</td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
+                                        
                                         <form method="post" style="display:inline;">
                                             <input type="hidden" name="approve_ticket_id" value="<?php echo htmlspecialchars($ticket['request_id']); ?>">
                                             <button type="submit" class="btn btn-success btn-sm">Approve</button>
                                         </form>
-                                        <button class="btn btn-danger btn-sm">Reject</button>
+                                        <form method="post" style="display:inline;">
+                                            <input type="hidden" name="reject_ticket_id" value="<?php echo htmlspecialchars($ticket['request_id']); ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endif; ?>
@@ -319,10 +330,8 @@ foreach ($tools as $tool) {
                                     <td><?php echo htmlspecialchars($ticket['request_timestamp']); ?></td>
                                     <td>Completed</td>
                                     <td><?php echo htmlspecialchars($ticket['remark']); ?></td>
-                                   
                                     <td><?php echo htmlspecialchars($ticket['completed_timestamp']); ?></td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm mb-2">Edit</button>
                                         <button class="btn btn-danger btn-sm mb-2">Delete</button>
                                     </td>
                                 </tr>

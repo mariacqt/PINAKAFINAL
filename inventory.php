@@ -91,9 +91,7 @@ $result = $conn->query($sql);
                                         echo "<td>" . $row['category'] . "</td>";
                                         echo "<td>" . $row['stock_quantity'] . "</td>";
                                         echo "<td>" . ($row['stock_quantity'] == 0 ? 'Out of Stock' : $row['status']) . "</td>";
-                                        echo "<td>";
-                                        echo "<button class='btn btn-primary btn-sm'>Edit</button> ";
-                                        
+                                        echo "<td>";  
                                         echo "<form action='delete_item.php' method='POST' style='display:inline-block;'>";
                                         echo "<input type='hidden' name='tool_id' value='" . $row['tool_id'] . "'>";
                                         echo "<button type='submit' class='btn btn-danger btn-sm'>Delete</button>";

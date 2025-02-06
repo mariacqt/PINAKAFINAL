@@ -1,4 +1,3 @@
-/* General Styles */
 body {
     font-family: 'Inter', Arial, sans-serif;
     margin: 0;
@@ -6,13 +5,12 @@ body {
     background-color: #f9f9f9;
 }
 
-/* Header */
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #012252;
-    padding: 5px 15px; /* Reduced padding */
+    padding: 5px 15px; 
     color: white;
     position: sticky;
     top: 0;
@@ -20,64 +18,63 @@ body {
 }
 
 .header .logo {
-    font-size: 22px; /* Reduced font size */
+    font-size: 22px; 
     font-weight: bold;
 }
 
 .header .search-bar {
     width: 100%;
-    max-width: 350px; /* Reduced max-width */
+    max-width: 350px; 
     flex: 1;
-    margin: 0px 15px; /* Reduced margin */
+    margin: 0px 15px; 
     position: relative;
 }
 
 .header .search-bar input {
     width: 100%;
-    padding: 8px 15px; /* Reduced padding */
+    padding: 8px 15px;
     border: none;
     border-radius: 5px;
-    font-size: 15px; /* Reduced font size */
-    box-sizing: border-box; /* Ensure padding is included in width */
+    font-size: 15px;
+    box-sizing: border-box;
 }
 
 .header .search-bar button {
     position: absolute;
-    right: 0; /* Fixed at the right end */
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
     background-color: #ffcc00;
     border: none;
-    padding: 8px 12px; /* Reduced padding */
+    padding: 8px 12px;
     cursor: pointer;
-    border-radius: 0 5px 5px 0; /* Rounded right corners */
+    border-radius: 0 5px 5px 0;
 }
 
-/* Styling the search icon inside the button */
 .header .search-bar button .search-icon {
-    width: 14.5px;  /* Reduced size of the image */
-    height: 14.5px; /* Reduced size of the image */
+    width: 14.5px;
+    height: 14.5px;
     object-fit: contain;
 }
 
 .header .icons {
     display: flex;
-    align-items: center; /* Center icons vertically */
-    gap: 15px; /* Reduced gap */
+    align-items: center;
+    gap: 15px;
     cursor: pointer;
-    margin-right: 15px; /* Adjusted margin */
+    margin-right: 15px;
 }
 
 .header .icons img {
-    width: 35px; /* Reduced icon size */
-    height: 35px; /* Reduced icon size */
+    width: 35px;
+    height: 35px;
 }
 
 .header .icons #cart-icon {
-    font-size: 28px; /* Reduced cart icon size */
-    margin-right: -2px; /* Adjusted margin */
+    font-size: 28px;
+    margin-right: -2px;
     margin-top: 2px;
-    position: relative; /* Ensure cart count stays within the icon */
+    position: relative;
 }
 
 .cart-count {
@@ -85,33 +82,32 @@ body {
     top: 13px;
     right: 8px;
     color: #6ae651;
-    font-size: 16px; /* Reduced font size */
+    font-size: 16px;
     font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px; /* Set fixed width */
-    height: 20px; /* Set fixed height */
+    width: 20px;
+    height: 20px;
 }
 
 .header .links {
     display: flex;
-    gap: 20px; /* Adjusted space between the links */
-    align-items: center; /* Aligns items vertically in the center */
-    list-style: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
-    margin-left: 20px; /* Move links to the right */
+    gap: 20px;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 20px;
 }
 
 .header .links li {
-    display: inline; /* Ensure list items are inline */
-    
+    display: inline;
 }
 
 .header .flex-container a {
-    text-decoration: none; /* Remove underline */
-    color: white; /* Set font color to white */
+    text-decoration: none;
+    color: white;
     font-size: 0.9em;
     padding: 5px 10px;
     border-radius: 5px;
@@ -122,14 +118,12 @@ body {
     transform: scale(1.05);
     flex-direction: row;
     color: white;
-}    
+}
 
-
-/* Sidebar */
 .sidebar {
-    width: 150px; /* Reduced width */
+    width: 150px;
     background-color: #f9f9f9;
-    padding: 10px; /* Reduced padding */
+    padding: 10px;
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
     height: 100vh;
     position: fixed;
@@ -144,34 +138,34 @@ body {
     text-align: center;
     display: flex;
     align-items: center;
-    font-size: 1.2em; /* Reduced font size */
-    margin-bottom: 10px; /* Reduced margin */
+    font-size: 1.2em;
+    margin-bottom: 10px;
 }
 
 .filter-group {
-    margin-bottom: 10px; /* Reduced margin */
+    margin-bottom: 10px;
 }
 
 .filter-group h3 {
-    margin-bottom: 5px; /* Reduced margin */
-    font-size: 1em; /* Reduced font size */
+    margin-bottom: 5px;
+    font-size: 1em;
 }
 
 .filter-group label {
-    display: flex; /* Changed to flex */
-    align-items: center; /* Center-align items */
+    display: flex;
+    align-items: center;
     margin-bottom: 5px;
-    font-size: 0.9em; /* Reduced font size */
+    font-size: 0.9em;
 }
 
 .filter-group input {
-    margin-right: 5px; /* Reduced margin */
+    margin-right: 5px;
 }
 
 .filter-group input[type="checkbox"] {
-    width: 15px; /* Reduced size */
-    height: 15px; /* Reduced size */
-    margin-right: 5px; /* Reduced margin */
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
     cursor: pointer;
 }
 
@@ -182,42 +176,40 @@ body {
 
 .filter-group .clear-btn {
     display: inline-block;
-    margin-top: 5px; /* Reduced margin */
+    margin-top: 5px;
     color: black;
     text-decoration: underline;
-    font-size: 0.8em; /* Reduced font size */
+    font-size: 0.8em;
     cursor: pointer;
     text-align: center;
 }
 
 .filter-group .clear-btn:hover {
-    transform: scale(1.05); /* Increase size */
-    opacity: 0.8; /* Add slight transparency */
+    transform: scale(1.05);
+    opacity: 0.8;
     text-decoration: underline;
 }
 
-/* Content */
 .content {
-    margin-left: 170px; /* Adjusted margin */
-    padding: 10px 20px; /* Adjusted padding */
+    margin-left: 170px;
+    padding: 10px 20px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Ensure 5 cards per row */
-    gap: 10px; /* Reduced gap */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
 }
 
 .card {
     background: white;
     border-radius: 10px;
-    
     overflow: hidden;
     text-align: center;
     padding: 10px;
-    font-family: 'Inter', Arial, sans-serif; /* Ensure Inter font is used */
-    width: 100%; /* Ensure cards take full width of the grid column */
-    height: 300px; /* Set fixed height for uniformity */
+    font-family: 'Inter', Arial, sans-serif;
+    width: 100%;
+    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -225,76 +217,74 @@ body {
 
 .card img {
     max-width: 100%;
-    height: 150px; /* Set fixed height for images */
+    height: 150px;
     object-fit: contain;
     margin-bottom: 10px;
 }
 
 .card h3 {
-    margin: 5px 0; /* Reduced margin */
+    margin: 5px 0;
     font-style: none;
-    font-size: 16px; /* Reduced font size */
+    font-size: 16px;
 }
 
 .card .description {
-    font-size: 12px; /* Reduced font size */
+    font-size: 12px;
     color: #666;
-    margin: 5px 0 10px 0; /* Adjusted margin to reduce space */
+    margin: 5px 0 10px 0;
 }
 
 .quantity-selector {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 6px 0; /* Reduced margin */
+    margin: 6px 0;
 }
 
 .quantity-selector button {
     background-color: #007BFF;
     color: white;
     border: none;
-    padding: 4px 8px; /* Reduced button size */
+    padding: 4px 8px;
     cursor: pointer;
-    border-radius: 50%; /* Changed shape to circle */
+    border-radius: 50%;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    font-size: 12px; /* Reduced font size */
+    font-size: 12px;
     font-weight: bold;
 }
 
 .quantity-selector button:hover {
     background-color: #012c5a;
-    transform: scale(1.05); /* Increase size */
+    transform: scale(1.05);
 }
 
 .quantity-selector span {
-    margin: 0 5px; /* Reduced margin */
+    margin: 0 5px;
     font-weight: none;
 }
 
-/* Hover effect for icons */
 .header .icons img {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .header .icons img:hover {
-    transform: scale(1.2); /* Increase size */
-    opacity: 0.8; /* Add slight transparency */
+    transform: scale(1.2);
+    opacity: 0.8;
 }
 
-/* Add to Cart Button */
 .add-to-cart-btn {
     background-color: #ffcc00;
     color: black;
     border: none;
-    padding: 8px 10px; /* Reduced padding */
-    font-size: 12px; /* Reduced font size */
+    padding: 8px 10px;
+    font-size: 12px;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 2px; /* Reduced margin */
-    width: 76%; /* Adjust button width */
-    align-self: center; /* Center the button */
+    margin-top: 2px;
+    width: 76%;
+    align-self: center;
 }
 
 .add-to-cart-btn:hover {
@@ -302,7 +292,6 @@ body {
     background-color: #e6b800;
 }
 
-/* Popup */
 .popup {
     display: none;
     position: fixed;
@@ -326,13 +315,13 @@ body {
 }
 
 .popup-content h2 {
-    font-size: 20px; /* Reduced font size */
+    font-size: 20px;
     text-align: center;
-    margin: 0; /* Remove margin */
-    background-color: #061274; /* Match header background color */
-    color: white; /* Match header text color */
-    padding: 15px; /* Reduced padding */
-    border-radius: 10px 10px 0 0; /* Rounded top corners */
+    margin: 0;
+    background-color: #061274;
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
 }
 
 .popup-content .cart-item {
@@ -354,14 +343,14 @@ body {
 
 .popup-content .cart-item .quantity-selector {
     flex-shrink: 0;
-    margin-left: 5px; /* Move quantity selectors to the left */
+    margin-left: 5px;
 }
 
 .popup-content #cart-items {
-    margin-top: 20px; /* Added top margin */
-    max-height: 300px; /* Set max height for scrollable area */
-    overflow-y: auto; /* Enable vertical scrolling */
-    overflow-x: hidden; /* Hide horizontal scrolling */
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .popup .close {
@@ -370,10 +359,10 @@ body {
     right: 10px;
     cursor: pointer;
     font-size: 22px;
-    background-color: #ff443ef8; /* Match button color */
+    background-color: #ff443ef8;
     color: black;
     border: none;
-    border-radius: 50%; /* Make it circular */
+    border-radius: 50%;
     width: 35px;
     height: 35px;
     display: flex;
@@ -383,7 +372,7 @@ body {
 }
 
 .popup .close:hover {
-    background-color: #ff807cf8; /* Darker on hover */
+    background-color: #ff807cf8;
 }
 
 .popup-content .confirm {
@@ -393,7 +382,7 @@ body {
     padding: 10px 20px;
     cursor: pointer;
     margin-top: 10px;
-    border-radius: 5px; /* Match other buttons */
+    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
@@ -409,7 +398,7 @@ body {
     cursor: pointer;
     margin-top: 10px;
     margin-right: 10px;
-    border-radius: 5px; /* Match other buttons */
+    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
@@ -428,7 +417,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     display: block;
-    margin: 20px auto 0; /* Center the button and add margin */
+    margin: 20px auto 0;
 }
 
 .submit-rental-btn:hover {
@@ -440,9 +429,9 @@ body {
     padding: 20px;
     border-radius: 10px;
     width: 90%;
-    max-width: 400px; /* Increased width */
+    max-width: 400px;
     max-height: 80%;
-    overflow: hidden; /* Remove scrollbar */
+    overflow: hidden;
     position: relative;
     float: center;
 }
@@ -458,23 +447,23 @@ body {
 }
 
 #account-popup .popup-content div {
-    margin-bottom: 20px; /* Increased bottom margin */
-    margin-top: 15px; /* Increased top margin */
+    margin-bottom: 20px;
+    margin-top: 15px;
 }
 
 #account-popup .popup-content label {
     display: block;
-    margin-bottom: 8px; /* Increased margin */
-    font-size: 14px; /* Adjusted font size */
+    margin-bottom: 8px;
+    font-size: 14px;
 }
 
 #account-popup .popup-content span {
     display: block;
-    padding: 12px; /* Increased padding */
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
-    font-size: 14px; /* Adjusted font size */
+    font-size: 14px;
 }
 
 #account-popup .close {
@@ -499,7 +488,6 @@ body {
     background-color: #ff807cf8;
 }
 
-/* Form Popup */
 #form-popup .popup-content {
     width: 90%;
     max-width: 500px;
@@ -533,13 +521,13 @@ body {
 
 #form-popup .radio-buttons-container {
     display: flex;
-    gap: 13px; /* Add gap between radio buttons */
-    margin-bottom: 10px; /* Add margin at the bottom */
-    font-style: normal; /* Set font style to normal */
+    gap: 13px;
+    margin-bottom: 10px;
+    font-style: normal;
 }
 
 #form-popup .radio-buttons-container label {
-    font-size: 15px;/* Set font style to normal */
+    font-size: 15px;
     font-weight: normal;
 }
 
@@ -572,7 +560,6 @@ body {
     background-color: darkred;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .header {
         flex-direction: column;
@@ -582,7 +569,7 @@ body {
     .header .search-bar {
         width: 100%;
         margin: 10px 0;
-        max-width: 90%; /* Ensure search bar fits within the window */
+        max-width: 90%;
     }
 
     .sidebar {
@@ -619,22 +606,20 @@ body {
         width: 20px;
         height: 20px;
     }
-    
 }
 
 @media (max-width: 480px) {
     .header .search-bar {
-        max-width: 90%; /* Make search bar full width */
-        margin: 10px 0; /* Add margin for spacing */
+        max-width: 90%;
+        margin: 10px 0;
     }
 
     .header .search-bar button {
-        right: 0; /* Fixed at the right end */
-        padding: 8px 10px; /* Adjust button padding */
+        right: 0;
+        padding: 8px 10px;
     }
 }
 
-/* Links and Logout Button */
 .links {
     margin-top: 60px;
     display: flex;
@@ -669,19 +654,20 @@ body {
 .logout-btn:hover {
     background-color: #e63b36;
 }
+
 .btn-rounded-pill {
-    border-radius: 50px; /* Rounded pill shape */
-    padding: 10px 20px; /* Padding for the button */
-    font-size: 16px; /* Font size */
-    background-color: #007bff; /* Background color */
-    color: white; /* Text color */
-    border: none; /* Remove border */
-    cursor: pointer; /* Pointer cursor */
-    text-decoration: none; /* Remove underline */
-    display: inline-block; /* Inline block for proper padding */
-    transition: background-color 0.3s ease; /* Smooth transition */
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
 }
 
 .btn-rounded-pill:hover {
-    background-color: #0056b3; /* Darker background on hover */
+    background-color: #0056b3;
 }

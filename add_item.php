@@ -30,21 +30,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (move_uploaded_file($image_tmp_name, $image_path)) {
                 // Insert the new item into the database
                 $sql = "INSERT INTO tools (tool_name, category, stock_quantity, status, image_url) 
-                        VALUES ('$tool_name', '$category', '$stock_quantity', '$status', '$image_path')";
+                        VALUES (?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ssiss", $tool_name, $category, $stock_quantity, $status, $image_path);
 
-                if ($conn->query($sql) === TRUE) {
+                try {
+                    $stmt->execute();
                     header("Location: inventory.php"); // Redirect to inventory page after successful insertion
-                } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
+                    exit();
+                } catch (mysqli_sql_exception $e) {
+                    if ($stmt->errno == 1062) { // Duplicate entry error code
+                        $error_message = "Error: Tool with the same name already exists.";
+                    } else {
+                        $error_message = "Error: " . $stmt->error;
+                    }
                 }
             } else {
-                echo "File upload failed!";
+                $error_message = "File upload failed!";
             }
         } else {
-            echo "Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
+            $error_message = "Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
         }
     } else {
-        echo "Error uploading file. Please try again.";
+        $error_message = "Error uploading file. Please try again.";
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="css/otheradmins.css" rel="stylesheet">
+    <title>Add Tool</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Add New Tool</h1>
+
+        <?php if (isset($error_message)): ?>
+            <div class="alert alert-danger">
+                <?php echo $error_message; ?>
+               
+            </div> 
+            <a href="inventory.php" class="btn btn-primary mt-3">Back to Inventory</a>
+        <?php endif; ?>

@@ -83,6 +83,24 @@ if (isset($_POST['complete_ticket_id'])) {
     $complete_ticket_id = $_POST['complete_ticket_id'];
     $remarks = $_POST['remark']; // Ensure 'remarks' is the correct field name from your form
     
+// Fetch tools data for the completed ticket
+$query_tools = "SELECT tools_data FROM rental_requests WHERE request_id = ?";
+$stmt_tools = $conn->prepare($query_tools);
+$stmt_tools->bind_param("i", $complete_ticket_id);
+$stmt_tools->execute();
+$result_tools = $stmt_tools->get_result();
+$tools_data = $result_tools->fetch_assoc()['tools_data'];
+$tools = json_decode($tools_data, true);
+
+// Update stock quantity in tools table
+foreach ($tools as $tool) {
+    $query_update_stock = "UPDATE tools SET stock_quantity = stock_quantity + ? WHERE tool_name = ?";
+    $stmt_update_stock = $conn->prepare($query_update_stock);
+    $stmt_update_stock->bind_param("is", $tool['quantity'], $tool['name']);
+    $stmt_update_stock->execute();
+}
+
+    
     // Prepare the update query
     $query_complete = "UPDATE rental_requests 
                        SET status = 'Completed', 

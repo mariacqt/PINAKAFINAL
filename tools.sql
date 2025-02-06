@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 03, 2025 at 07:45 PM
+-- Generation Time: Feb 06, 2025 at 01:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,9 +42,9 @@ CREATE TABLE `tools` (
 
 INSERT INTO `tools` (`tool_id`, `tool_name`, `category`, `stock_quantity`, `image_url`, `status`) VALUES
 (1, 'Banana Split Plate', 'Glassware', 30, 'tools/banana-split-plate.png', 'available'),
-(2, 'Bar Spoon', 'Silverware', 50, 'tools/bar-spoon.png', 'available'),
-(3, 'Bar Tray', 'Servingware', 20, 'tools/bar-tray.png', 'available'),
-(4, 'Beer Mug', 'Glassware', 20, 'tools/beer-mug.png', 'available'),
+(2, 'Bar Spoon', 'Silverware', 45, 'tools/bar-spoon.png', 'available'),
+(3, 'Bar Tray', 'Servingware', 15, 'tools/bar-tray.png', 'available'),
+(4, 'Beer Mug', 'Glassware', 0, 'tools/beer-mug.png', 'available'),
 (5, 'Bread Knife', 'Silverware', 15, 'tools/bread-knife.png', 'available'),
 (6, 'Butcher Knife', 'Silverware', 2, 'tools/butcher-knife.png', 'available'),
 (7, 'Butter Knife', 'Silverware', 50, 'tools/butter-knife.png', 'available'),
@@ -115,32 +115,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- Update stock quantity after borrowing
-DELIMITER //
-CREATE TRIGGER update_stock_quantity AFTER UPDATE ON rental_requests
-FOR EACH ROW
-BEGIN
-    IF NEW.status = 'Approved' THEN
-        DECLARE tool_data JSON;
-        DECLARE tool_name VARCHAR(255);
-        DECLARE tool_quantity INT;
-        DECLARE tool_cursor CURSOR FOR
-            SELECT JSON_UNQUOTE(JSON_EXTRACT(tool, '$.name')), JSON_UNQUOTE(JSON_EXTRACT(tool, '$.quantity'))
-            FROM JSON_TABLE(NEW.tools_data, '$[*]' COLUMNS (tool JSON PATH '$')) AS tools;
-
-        OPEN tool_cursor;
-        tool_loop: LOOP
-            FETCH tool_cursor INTO tool_name, tool_quantity;
-            IF done THEN
-                LEAVE tool_loop;
-            END IF;
-            UPDATE tools 
-            SET stock_quantity = stock_quantity - tool_quantity, 
-                status = IF(stock_quantity - tool_quantity <= 0, 'out_of_stock', status)
-            WHERE tool_name = tool_name;
-        END LOOP;
-        CLOSE tool_cursor;
-    END IF;
-END//
-DELIMITER ;

@@ -177,28 +177,33 @@ if (isset($_SESSION['user_id'])) {
         setInterval(fetchActiveUsers, 10000);
         fetchActiveUsers(); // Fetch immediately on page load
 
-        var xValues = ["Borrowed Tools", "Remaining Tools"];
-        var yValues = [1, 2];
+        var xValues = ["Pending Tickets", "Approved Tickets", "Completed Tickets"];
+        var yValues = [
+            <?php echo $pendingTickets; ?>, 
+            <?php echo $approvedTickets; ?>, 
+            <?php echo $completedTickets; ?>
+        ];
         var barColors = [
-          "#b91d47",
-          "#00aba9"
+            "#f39c12",
+            "#27ae60",
+            "#2980b9"
         ];
 
         new Chart("myChart", {
-          type: "pie",
-          data: {
+            type: "doughnut",
+            data: {
             labels: xValues,
             datasets: [{
-              backgroundColor: barColors,
-              data: yValues
+                backgroundColor: barColors,
+                data: yValues
             }]
-          },
-          options: {
+            },
+            options: {
             title: {
-              display: true,
-              text: "Tool Usage Overview"
+                display: true,
+                text: "Ticket Status Overview"
             }
-          }
+            }
         });
     </script>
 </body>

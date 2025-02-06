@@ -44,7 +44,7 @@ $result_completed = $conn->query($query_completed);
     <title>User Ticket Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/otheradmins.css?v=2">
+    <link rel="stylesheet" href="css/landingstyle.css?v=2">
 </head>
 <body>
 
@@ -65,11 +65,11 @@ $result_completed = $conn->query($query_completed);
                                 <img src="icons/user-icon.png" alt="Account Icon" style="width: 33px; height: 33px; margin-top: 15px;">
                             </div>
                             </li>
-                            <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">Home</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
                             <li class="nav-item"><a href="user_about.php" class="nav-link text-white">About Us</a></li>
                             <li class="nav-item"><a href="user_tools.php" class="nav-link text-white">Borrow Tools</a></li>
                             <li class="nav-item"><a href="user_contact.php" class="nav-link text-white">Contact</a></li>
-                            <li class="nav-item"><a href="user_tickets.php" class="nav-link text-white">My Tickets</a></li>
+                            <li class="nav-item"><a href="user_tickets.php" class="nav-link text-white  fw-bold">My Tickets</a></li>
                         </ul>
                     </div>
                     <div class="d-none d-lg-block">
@@ -253,7 +253,7 @@ $result_completed = $conn->query($query_completed);
                                     <td><?php echo $row['status']; ?></td>
                                     <td><?php echo $row['request_timestamp']; ?></td>
                                     <td><?php echo $row['approved_timestamp'] ?: 'N/A'; ?></td>
-                                    <td><?php echo $row['remark'] ?: 'N/A'; ?></td>
+                                    <td><?php echo $row['remark'] ?: 'Complete'; ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -274,16 +274,11 @@ $result_completed = $conn->query($query_completed);
                 </div>
                 <div class="modal-body">
                     <ul id="toolsList" class="list-group">
-                        <!-- Tools will be loaded here -->
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-
-
-    
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function viewTools(toolsData) {
@@ -301,6 +296,5 @@ $result_completed = $conn->query($query_completed);
             }
         }
     </script>
-
 </body>
 </html>

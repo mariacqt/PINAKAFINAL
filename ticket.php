@@ -259,7 +259,7 @@ if (isset($_POST['complete_ticket_id'])) {
                             <th>Status</th>
                             <th>Remarks</th>
                             <th>Completed On</th>
-                            <th class="col-3">Actions</th>
+                            <th class="col-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -281,11 +281,12 @@ if (isset($_POST['complete_ticket_id'])) {
                                     <td><?php echo htmlspecialchars($ticket['request_timestamp']); ?></td>
                                     <td>Completed</td>
                                     <td><?php echo htmlspecialchars($ticket['remark']); ?></td>
+                                    <td><?php echo $row['remark'] ?: 'Complete'; ?></td>
                                     <td><?php echo htmlspecialchars($ticket['completed_timestamp']); ?></td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm">View</button>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                        <button class="btn btn-primary btn-sm mb-2">View</button>
+                                        <button class="btn btn-primary btn-sm mb-2">Edit</button>
+                                        <button class="btn btn-danger btn-sm mb-2">Delete</button>
                                     </td>
                                 </tr>
                             <?php endif; ?>
@@ -295,7 +296,7 @@ if (isset($_POST['complete_ticket_id'])) {
             </div> </div>             
         </div>
     </div>
-    <!-- Modal -->
+
     <div class="modal fade" id="toolsModal" tabindex="-1" aria-labelledby="toolsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -305,7 +306,6 @@ if (isset($_POST['complete_ticket_id'])) {
                 </div>
                 <div class="modal-body">
                     <ul id="toolsList" class="list-group">
-                        <!-- Tools will be loaded here -->
                     </ul>
                 </div>
             </div>
@@ -336,7 +336,6 @@ if (isset($_POST['complete_ticket_id'])) {
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
-
             </div>
         </div>
     </div>
@@ -372,3 +371,4 @@ if (isset($_POST['complete_ticket_id'])) {
    
 </body>
 </html>
+

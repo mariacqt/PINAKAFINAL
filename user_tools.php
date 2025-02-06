@@ -190,7 +190,6 @@ if ($result_tools->num_rows > 0) {
     <div class="radio-buttons-container">
         <label><input type="radio" name="user-classification" value="HM Student" required> HM Student</label>
         <label><input type="radio" name="user-classification" value="Non-HM Student" required> Non-HM Student</label>
-        <label><input type="radio" name="user-classification" value="PUP Employee" required> PUP Employee</label>
     </div>
     
     <label for="request-date">Borrowing Date:</label>
@@ -207,9 +206,6 @@ if ($result_tools->num_rows > 0) {
     <button type="submit" style="background-color:#ffcc00;">Submit</button>
     <button type="button" onclick="closeForm()">Cancel</button>
 </form>
-
-
-
         </div>
     </div>
     <div class="popup" id="confirmation-popup">
@@ -244,13 +240,15 @@ function decreaseQuantity(button) {
 function increaseQuantity(button) {
     const span = button.previousElementSibling;
     let quantity = parseInt(span.textContent);
-    const maxQuantity = parseInt(button.closest('.card').querySelector('.description').textContent.split(': ')[1]);
-    if (quantity < maxQuantity) {
+    const card = button.closest('.card');
+    const stockQuantity = parseInt(card.querySelector('.description').textContent.split(': ')[1]);
+
+    if (quantity < stockQuantity) {
         span.textContent = quantity + 1;
-        if (quantity + 1 >= maxQuantity) {
-            button.disabled = true; // Disable "+" button
-        }
     }
+
+    // Disable the button if max stock is reached
+    button.disabled = quantity + 1 >= stockQuantity;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -314,14 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (this.value < borrowDateInput.value) this.value = borrowDateInput.value;
     });
 });
-
 </script>
-
-
-
-
-
-
 
 </body>
 </html>

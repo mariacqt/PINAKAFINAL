@@ -169,7 +169,7 @@ if (isset($_SESSION['user_id'])) {
                     </li>
                     <li class="mb-3">
                         <i class="fas fa-envelope text-primary me-2"></i>
-                        <strong>Email:</strong> info@hmkitchen.com
+                        <strong>Email:</strong> hmkitcheninfo@gmail.com
                     </li>
                 </ul>
         

@@ -170,7 +170,7 @@ if (isset($_SESSION['user_id'])) {
                         <i class="fas fa-envelope mb-3 text-primary" style="font-size: 40px;"></i>
                         <h3>Email</h3>
                         <p class="text-muted">We value your feedback and suggestions. Let us know how we can improve our services to better meet your needs.</p>
-                        <p class="fw-bold">info@hmkitchen.com</p>
+                        <p class="fw-bold">hmkitcheninfo@gmail.com</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">

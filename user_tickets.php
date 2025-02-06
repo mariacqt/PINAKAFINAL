@@ -65,7 +65,7 @@ $result_completed = $conn->query($query_completed);
                                 <img src="icons/user-icon.png" alt="Account Icon" style="width: 33px; height: 33px; margin-top: 15px;">
                             </div>
                             </li>
-                            <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="user_home.php">Home</a></li>
                             <li class="nav-item"><a href="user_about.php" class="nav-link text-white">About Us</a></li>
                             <li class="nav-item"><a href="user_tools.php" class="nav-link text-white">Borrow Tools</a></li>
                             <li class="nav-item"><a href="user_contact.php" class="nav-link text-white">Contact</a></li>

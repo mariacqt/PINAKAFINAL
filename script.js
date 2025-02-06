@@ -11,10 +11,16 @@ function decreaseQuantity(button) {
 function increaseQuantity(button) {
     const span = button.previousElementSibling;
     let quantity = parseInt(span.textContent);
-    const maxQuantity = parseInt(button.closest('.card').querySelector('.description').textContent.split(': ')[1]);
-    if (quantity < maxQuantity) {
+    const card = button.closest('.card');
+    const stockQuantity = parseInt(card.querySelector('.description').textContent.split(': ')[1]);
+    
+
+    if (quantity < stockQuantity) {
         span.textContent = quantity + 1;
     }
+
+    // Disable the button if max stock is reached
+    button.disabled = quantity + 1 >= stockQuantity;
 }
 
 function addToCart(category, name, quantity, img) {
@@ -76,11 +82,11 @@ function openCart() {
         div.classList.add('cart-item');
         div.innerHTML = `
             <img src="${item.img}" alt="${item.name}">
-            <span><b>Item:</b> ${item.name} | ${item.category} &nbsp; = &nbsp;</span>
+            <span><b>Item:</b> ${item.name} | ${item.category}</span>
             <div class="quantity-selector">
-          
-                <span>${item.quantity}</span>
-                
+                <button onclick="updateQuantity('${item.name}', -1)">-</button>
+                <span>${item.quantity}</span> <!-- Ensure correct quantity is displayed -->
+                <button onclick="updateQuantity('${item.name}', 1)">+</button>
             </div>
         `;
         cartItems.appendChild(div);
@@ -108,15 +114,41 @@ function closeAccount() {
 function updateQuantity(name, change) {
     const item = cart.find(i => i.name === name);
     if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) {
-            cart.splice(cart.indexOf(item), 1); // Remove the item if quantity is 0
-        }
-        updateQuantitySelector(name); // Update quantity selector
-        openCart(); // Refresh the cart popup
-    }
-}
+        const card = [...document.querySelectorAll('.card')].find(c => c.querySelector('h3').textContent.trim() === name);
+        const quantitySpan = card.querySelector('.quantity-selector span');
+        const increaseButton = card.querySelector('.quantity-selector button:last-child');
+        const stockQuantity = parseInt(card.querySelector('.description').textContent.split(': ')[1]);
 
+        let newQuantity = item.quantity + change;
+        if (newQuantity >= 1 && newQuantity <= stockQuantity) {
+            item.quantity = newQuantity;
+            quantitySpan.textContent = newQuantity;
+        }
+
+        // Enable or disable the + button
+        increaseButton.disabled = item.quantity >= stockQuantity;
+        }
+    updateCartPopup(); // Ensure the cart popup is updated
+}
+function updateCartPopup() {
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = ''; // Clear existing items
+    cart.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('cart-item');
+        div.innerHTML = `
+            <img src="${item.img}" alt="${item.name}">
+            <span><b>Item:</b> ${item.name} | ${item.category}</span>
+            <div class="quantity-selector">
+                <button onclick="updateQuantity('${item.name}', -1)">-</button>
+                <span>${item.quantity}</span> <!-- Ensure correct quantity is displayed -->
+                <button onclick="updateQuantity('${item.name}', 1)">+</button>
+            </div>
+        `;
+        cartItems.appendChild(div);
+    });
+    updateTotalQuantity();
+}
 function clearFilters() {
     document.querySelectorAll('.filter-group input').forEach(input => (input.checked = false));
     filterCards(); // Call filterCards to reset the view
@@ -197,9 +229,13 @@ function filterCards() {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         const cardText = card.textContent.toLowerCase();
+        const stockQuantity = parseInt(card.querySelector('.description').textContent.split(': ')[1]);
         const matchesSearch = cardText.includes(searchTerm);
         const matchesFilter = filters.length === 0 || filters.some(filter => cardText.includes(filter));
-        if (matchesSearch && matchesFilter) {
+        const inStockFilter = filters.includes('in stock');
+        const matchesStock = !inStockFilter || stockQuantity > 0;
+
+        if (matchesSearch && matchesFilter && matchesStock) {
             card.style.display = 'block';
         } else {
             card.style.display = 'none';

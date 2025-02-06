@@ -54,21 +54,16 @@
         <div class="container">
             <h2 class="fw-bold text-center mb-4">Latest Announcements</h2>
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">
+                <div class="list-group-item list-group-item-action">
                     <h5 class="mb-1">New Kitchen Tools Added to Inventory</h5>
                     <p class="mb-1">Discover the latest kitchen tools available for borrowing now!</p>
                     <small>Posted on January 15, 2025</small>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
+                </div>
+                <div class="list-group-item list-group-item-action">
                     <h5 class="mb-1">Scheduled Maintenance</h5>
                     <p class="mb-1">Our platform will undergo maintenance on January 20, 2025.</p>
                     <small>Posted on January 5, 2025</small>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                    <h5 class="mb-1">Tool Safety Guidelines Updated</h5>
-                    <p class="mb-1">We’ve updated our tool safety guidelines to ensure safety for all users.</p>
-                    <small>Posted on December 20, 2024</small>
-                </a>
+                </div>
             </div>  
         </div>
     </section>
@@ -100,7 +95,7 @@
                         <i class="fas fa-phone mb-3 text-primary" style="font-size: 40px;"></i>
                         <h3>Phone</h3>
                         <p class="text-muted">For any technical support or issues with the system, please contact our support team for immediate assistance.</p>
-                        <p class="fw-bold">+639171859842</p>
+                        <p class="fw-bold">+639171621854</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">

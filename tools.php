@@ -1,37 +1,5 @@
 <?php
 session_start();
-
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header("Location: login.php");
-    exit();
-}
-
-// Database connection
-include 'conn.php';
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch user data from the database
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-    $query = "SELECT username, student_number, email FROM users WHERE user_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-
-    if (!$user) {
-        echo "User not found.";
-        exit();
-    }
-} else {
-    echo "No user is logged in.";
-    exit();
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,10 +7,31 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUP HM Kitchen</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/tools.css">
     <link rel="icon" href="icons/pup-logo.png" type="image/png">
+    <script>
+    function checkLogin() {
+        <?php if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
+            alert("You should login first before you proceed.");
+            return false;
+        <?php else: ?>
+            submitRentalRequest();
+            return true;
+        <?php endif; ?>
+    }
+
+    function addToBasket() {
+        <?php if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
+            alert("You need to login first before adding items to the basket.");
+            return false;
+        <?php else: ?>
+            // Code to add item to basket
+            alert("Item added to basket.");
+            return true;
+        <?php endif; ?>
+    }
+    </script>
 </head>
 <body>
     <div class="header">
@@ -56,15 +45,14 @@ if (isset($_SESSION['user_id'])) {
             </button>
         </div>
         <div class="flex-container">
-            <a href="user_home.php">Home</a>
-            <a href="user_about.php">About Us</a>
-            <a href=""><strong>Borrow Tools</strong></a>
-            <a href="user_contact.php">Contact Us</a>
-            <a href="user_tickets.php">My Tickets</a>
+            <a href="index.php">Home</a>
+            <a href="about.php">About Us</a>
+            <a href="">Borrow Tools</a>
+            <a href="contact.php">Contact Us</a>
         </div>
         <div class="icons">
-            <div id="account-icon" onclick="openAccount()">
-                <img src="icons/user-icon.png" alt="Account Icon" style="width: 33px; height: 33px;">
+            <div id="account-icon" data-bs-toggle="modal" data-bs-target="#accountModal">
+                <a href="login.php" class="btn-rounded-pill">Login</a>
             </div>
             <div id="cart-icon" onclick="openCart()">
                 <img src="icons/basket-icon.png" alt="Cart Icon" style="width: 35px; height: 35px;">
@@ -96,7 +84,6 @@ if (isset($_SESSION['user_id'])) {
         <div class="grid">
             <?php
             require 'conn.php'; // Include the database connection
-
             $sql = "SELECT * FROM tools";
             $result = $conn->query($sql);
 
@@ -111,13 +98,12 @@ if (isset($_SESSION['user_id'])) {
                     echo '<span>1</span>';
                     echo '<button onclick="increaseQuantity(this)">+</button>';
                     echo '</div>';
-                    echo '<button class="add-to-cart-btn" onclick="addToCart(\'' . $row['category'] . '\', \'' . $row['tool_name'] . '\', parseInt(this.previousElementSibling.querySelector(\'span\').textContent), \'' . $row['image_url'] . '\')">Add to Basket</button>';
+                    echo '<button class="add-to-cart-btn" onclick="addToBasket(\'' . $row['category'] . '\', \'' . $row['tool_name'] . '\', parseInt(this.previousElementSibling.querySelector(\'span\').textContent), \'' . $row['image_url'] . '\')">Add to Basket</button>';
                     echo '</div>';
                 }
             } else {
                 echo '<p>No tools found in inventory.</p>';
             }
-
             $conn->close();
             ?>
         </div>
@@ -135,25 +121,6 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
     
-    <div class="popup" id="account-popup">
-        <div class="popup-content">
-            <h2>Account Information</h2>
-            <div>
-                <label for="student-name"><b>Student Name:</b></label>
-                <span id="student-name" style="color: black"><?php echo htmlspecialchars($user['username']); ?></span>
-            </div>
-            <div>
-                <label for="student-number"><b>Student Number:</b></label>
-                <span id="student-number" style="color: black"><?php echo htmlspecialchars($user['student_number']); ?></span>
-            </div>
-            <div>
-                <label for="email"><b>Email:</b></label>
-                <span id="email" style="color: black"><?php echo htmlspecialchars($user['email']); ?></span>
-            </div>
-            <button class="logout-btn" onclick="confirmLogout()">Logout</button>
-            <button class="close" onclick="closeAccount()">x</button>
-        </div>
-    </div>
     <div class="popup" id="terms-popup">
         <div class="popup-content">
             <h2>Terms & Conditions</h2>
@@ -164,51 +131,6 @@ if (isset($_SESSION['user_id'])) {
             <p>▸ <b>FOR DAMAGED OR MISSING ITEMS:</b> The borrower is responsible for repair or replacement. Please discuss with the GIS in-charge to determine the steps.</p>
             <button class="cancel" onclick="closeTerms()">Cancel</button>
             <button class="confirm" onclick="proceedToForm()">Proceed</button>
-        </div>
-    </div>
-    
- 
-    <div class="popup" id="form-popup">
-        <div class="popup-content">
-            <h2>Borrow Request Form</h2>
-            <form action="submit_request.php" method="POST">
-    <br>
-    <label for="student-id">Student ID:</label>
-    <input type="text" id="student-name" name="student-id" value="<?php echo htmlspecialchars($user['student_number']); ?>" readonly>
-    
-    <label for="student-name">Student Name:</label>
-    <input type="text" id="student-id" name="student-name" value="<?php echo htmlspecialchars($user['username']); ?>" readonly>
-    
-    <label for="course-section">Course & Section:</label>
-    <input type="text" id="course-section" name="course-section" placeholder="BSHM 1-1" required>
-    
-    <label for="subject">Subject:</label>
-    <input type="text" id="subject" name="subject" placeholder="Enter a subject" required>
-    
-    <label for="professor">Professor:</label>
-    <input type="text" id="professor" name="professor" placeholder="Dela Cruz, Juan B." required>
-    
-    <label>User Classification:</label>
-    <div class="radio-buttons-container">
-        <label><input type="radio" name="user-classification" value="HM Student" required> HM Student</label>
-        <label><input type="radio" name="user-classification" value="Non-HM Student" required> Non-HM Student</label>
-        <label><input type="radio" name="user-classification" value="PUP Employee" required> PUP Employee</label>
-    </div>
-    
-    <label for="request-date">Borrowing Date:</label>
-    <input type="date" id="request-date" name="borrowing-date" required>
-    <input type="time" id="borrowing-time" name="borrowing-time" required>
-
-    <label for="returning-date">Returning Date:</label>
-    <input type="date" id="returning-date" name="returning-date" required>
-
-    <input type="hidden" name="cart-data" id="cart-data" value='{"tool_name":"Example Tool","quantity":1}'>
-
-    
-    <input type="hidden" id="request-timestamp" name="request-timestamp">
-    <button type="submit">Submit</button>
-    <button type="button" onclick="closeForm()">Cancel</button>
-</form>
         </div>
     </div>
     <div class="popup" id="confirmation-popup">

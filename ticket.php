@@ -368,17 +368,14 @@ if (isset($_POST['reject_ticket_id'])) {
                 <form method="post">
                         <input type="hidden" name="complete_ticket_id" id="complete_ticket_id">
                         <div class="mb-3">
-                            <label for="remarks" class="form-label">Remarks</label>
                             <select class="form-select" name="remark" id="remarks" required>
                                 <option value="Complete">Complete</option>
                                 <option value="Missing">Missing</option>
                                 <option value="Late">Late</option>
                                 <option value="Broken">Broken</option>
                             </select>
-
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>

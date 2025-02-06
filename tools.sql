@@ -35,7 +35,7 @@ CREATE TABLE `tools` (
   `image_url` varchar(255) DEFAULT NULL,
   `status` enum('available','out_of_stock') DEFAULT 'available'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+SELECT MAX(tool_id) FROM tools;
 --
 -- Dumping data for table `tools`
 --

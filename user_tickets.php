@@ -171,8 +171,8 @@ $result_completed = $stmt_completed->get_result();
                                 <th>Status</th>
                                 <th>Request Timestamp</th>
                                 <th>Approved Timestamp</th>
-                                <th>Remark</th>
-                                <th>Action</th>
+                       
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -189,13 +189,8 @@ $result_completed = $stmt_completed->get_result();
                                     <td><?php echo $row['status']; ?></td>
                                     <td><?php echo $row['request_timestamp']; ?></td>
                                     <td><?php echo $row['approved_timestamp'] ?: 'N/A'; ?></td>
-                                    <td><?php echo $row['remark'] ?: 'N/A'; ?></td>
-                                    <td>
-                                        <form method="POST" style="display:inline;">
-                                            <input type="hidden" name="reject_ticket_id" value="<?php echo $row['request_id']; ?>">
-                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
-                                        </form>
-                                    </td>
+                                    
+                                  
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -221,7 +216,7 @@ $result_completed = $stmt_completed->get_result();
                                 <th>Status</th>
                                 <th>Request Timestamp</th>
                                 <th>Approved Timestamp</th>
-                                <th>Remark</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -238,7 +233,7 @@ $result_completed = $stmt_completed->get_result();
                                     <td><?php echo $row['status']; ?></td>
                                     <td><?php echo $row['request_timestamp']; ?></td>
                                     <td><?php echo $row['approved_timestamp'] ?: 'N/A'; ?></td>
-                                    <td><?php echo $row['remark'] ?: 'N/A'; ?></td>
+                                    
                                 </tr>
                             <?php } ?>
                         </tbody>

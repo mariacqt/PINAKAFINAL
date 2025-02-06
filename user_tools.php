@@ -54,7 +54,7 @@ if ($result_tools->num_rows > 0) {
 <body>
     <div class="header">
         <div class="logo">
-            <img src="icons/hm-pup.png" alt="Logo" style="width: 155px; height: 30px;">
+            <img src="icons/hm-pup.png" alt="Logo" style="width: 160px; height: 35px;">
         </div>
         <div class="search-bar">
             <input type="text" placeholder="Search for tools...">
@@ -156,8 +156,9 @@ if ($result_tools->num_rows > 0) {
             <h2>Terms & Conditions</h2>
             <h4 style="color: red;"> FAILURE TO COMPLY WILL LEAD TO REJECTION OF REQUEST.</h4>
             <p>▸ <b>DOUBLE CHECK YOUR LIST OF TOOLS BEFORE SUBMITTING YOUR REQUEST.</b></p>
-            <p>▸ <b>STRICTLY 1 TRANSACTION AT A TIME, UNTIL COMPLETION:</b> Each user is strictly allowed one transaction ticket at a time, which must be fully completed before a new ticket can be issued.</p>
-            <p>▸ <b>STRICTLY NO ID, NO PROCESSING:</b> Surrender your <b>PHYSICAL ID</b> and approved ticket to the GIS in-charge to receive borrowed items.</p>
+            <p>▸ <b>FIRST COME FIRST SERVE BASIS.</p>
+            <p>▸ <b>STRICTLY NO ID, NO PROCESSING:</b> Surrender your <b>PHYSICAL ID</b> and approved ticket to the staff in-charge to receive borrowed items.</p>
+            <p> <b> STRICTLY NO PROXY. For urgent matters, please reach out to the admin via contact provided. </b></p>
             <p>▸ <b>FOR DAMAGED OR MISSING ITEMS:</b> The borrower is responsible for repair or replacement. Please discuss with the GIS in-charge to determine the steps.</p>
             <button class="cancel" onclick="closeTerms()">Cancel</button>
             <button class="confirm" onclick="proceedToForm()">Proceed</button>
@@ -203,7 +204,7 @@ if ($result_tools->num_rows > 0) {
 
     
     <input type="hidden" id="request-timestamp" name="request-timestamp">
-    <button type="submit">Submit</button>
+    <button type="submit" style="background-color:#ffcc00;">Submit</button>
     <button type="button" onclick="closeForm()">Cancel</button>
 </form>
 

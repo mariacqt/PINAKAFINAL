@@ -110,8 +110,8 @@ if ($result_tools->num_rows > 0) {
                 <p class="description"><?php echo $tool['category']; ?> | In Stock: <?php echo $tool['stock_quantity']; ?></p>
                 <h3><?php echo $tool['tool_name']; ?></h3>
                 <div class="quantity-selector">
-                    <button onclick="decreaseQuantity(this)">-</button>
-                    <span>1</span>
+                    <button onclick="decreaseQuantity(this)" <?php echo $tool['stock_quantity'] == 0 ? 'disabled' : ''; ?>>-</button>
+                    <span id="number_selector">1</span>
                     <button onclick="increaseQuantity(this)" <?php echo $tool['stock_quantity'] == 0 ? 'disabled' : ''; ?>>+</button>
                 </div>
                 <button class="add-to-cart-btn" onclick="addToCart('<?php echo $tool['category']; ?>', '<?php echo $tool['tool_name']; ?>', parseInt(this.previousElementSibling.querySelector('span').textContent), '<?php echo $tool['image_url']; ?>')" <?php echo $tool['stock_quantity'] == 0 ? 'disabled' : ''; ?>><?php echo $tool['stock_quantity'] == 0 ? 'Out of Stock' : 'Add to Basket'; ?></button>
@@ -232,6 +232,43 @@ if ($result_tools->num_rows > 0) {
 <script src="script.js"></script>
 
 <script>
+function decreaseQuantity(button) {
+    const span = button.nextElementSibling;
+    let quantity = parseInt(span.textContent);
+    if (quantity > 1) {
+        span.textContent = quantity - 1;
+        button.nextElementSibling.nextElementSibling.disabled = false; // Enable "+" button
+    }
+}
+
+function increaseQuantity(button) {
+    const span = button.previousElementSibling;
+    let quantity = parseInt(span.textContent);
+    const maxQuantity = parseInt(button.closest('.card').querySelector('.description').textContent.split(': ')[1]);
+    if (quantity < maxQuantity) {
+        span.textContent = quantity + 1;
+        if (quantity + 1 >= maxQuantity) {
+            button.disabled = true; // Disable "+" button
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        const stockQuantity = parseInt(card.querySelector('.description').textContent.split(': ')[1]);
+        const decreaseButton = card.querySelector('.quantity-selector button:first-child');
+        const increaseButton = card.querySelector('.quantity-selector button:last-child');
+        const numberSelector = card.querySelector('.quantity-selector span');
+
+        if (stockQuantity == 0) {
+            decreaseButton.disabled = true;
+            increaseButton.disabled = true;
+            numberSelector.textContent = '0';
+        }
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     let today = new Date();
     let tomorrow = new Date(today);

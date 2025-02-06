@@ -301,9 +301,9 @@ if (isset($_POST['complete_ticket_id'])) {
                                     <td><?php echo htmlspecialchars($ticket['request_timestamp']); ?></td>
                                     <td>Completed</td>
                                     <td><?php echo htmlspecialchars($ticket['remark']); ?></td>
+                                   
                                     <td><?php echo htmlspecialchars($ticket['completed_timestamp']); ?></td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm mb-2">View</button>
                                         <button class="btn btn-primary btn-sm mb-2">Edit</button>
                                         <button class="btn btn-danger btn-sm mb-2">Delete</button>
                                     </td>

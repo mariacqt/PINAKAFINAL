@@ -26,7 +26,6 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `rental_requests`
 --
-
 CREATE TABLE `rental_requests` (
   `request_id` int(11) NOT NULL,
   `student_id` varchar(255) NOT NULL,
@@ -40,16 +39,13 @@ CREATE TABLE `rental_requests` (
   `returning_date` date NOT NULL,
   `tools_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`tools_data`)),
   `request_timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` varchar(20) DEFAULT 'Pending',
+  `status` enum('Pending', 'Approved', 'Completed', 'Denied - Out of Stock') DEFAULT 'Pending',
   `approved_timestamp` timestamp NULL DEFAULT NULL,
   `remark` text DEFAULT NULL,
   `completed_timestamp` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
 -- Dumping data for table `rental_requests`
---
-
 INSERT INTO `rental_requests` (`request_id`, `student_id`, `student_name`, `course_section`, `subject`, `professor`, `user_classification`, `borrowing_date`, `borrowing_time`, `returning_date`, `tools_data`, `request_timestamp`, `status`, `approved_timestamp`, `remark`, `completed_timestamp`) VALUES
 (1, 'a', 'a', 'bist 3-2', 'a', 'dela rosa buhay', 'Non-HM Student', '2025-02-05', '18:51:00', '2025-02-14', '[{\"category\":\"Glassware\",\"name\":\"Beer Mug\",\"quantity\":1,\"img\":\"tools\\/beer-mug.png\"},{\"category\":\"Servingware\",\"name\":\"Bar Tray\",\"quantity\":1,\"img\":\"tools\\/bar-tray.png\"},{\"category\":\"Silverware\",\"name\":\"Bar Spoon\",\"quantity\":1,\"img\":\"tools\\/bar-spoon.png\"}]', '2025-02-05 02:51:46', 'Completed', '2025-02-05 11:41:07', NULL, '2025-02-06 06:56:32'),
 (2, 'a', 'a', 'bist 3-2', 'Hello its me', 'di ko alam', 'HM Student', '2025-02-05', '19:41:00', '2025-02-07', '[{\"category\":\"Servingware\",\"name\":\"Bar Tray\",\"quantity\":1,\"img\":\"tools\\/bar-tray.png\"}]', '2025-02-05 03:42:00', 'Completed', '2025-02-05 11:51:26', NULL, '2025-02-06 06:56:32'),

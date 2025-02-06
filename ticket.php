@@ -57,6 +57,23 @@ if (isset($_POST['approve_ticket_id'])) {
     $stmt_approve = $conn->prepare($query_approve);
     $stmt_approve->bind_param("i", $approve_ticket_id);
     $stmt_approve->execute();
+
+    // Update stock quantity in tools table
+    $query_tools = "SELECT tools_data FROM rental_requests WHERE request_id = ?";
+    $stmt_tools = $conn->prepare($query_tools);
+    $stmt_tools->bind_param("i", $approve_ticket_id);
+    $stmt_tools->execute();
+    $result_tools = $stmt_tools->get_result();
+    $tools_data = $result_tools->fetch_assoc()['tools_data'];
+    $tools = json_decode($tools_data, true);
+
+    foreach ($tools as $tool) {
+        $query_update_stock = "UPDATE tools SET stock_quantity = stock_quantity - ? WHERE tool_name = ?";
+        $stmt_update_stock = $conn->prepare($query_update_stock);
+        $stmt_update_stock->bind_param("is", $tool['quantity'], $tool['name']);
+        $stmt_update_stock->execute();
+    }
+
     header("Location: ticket.php");
     exit();
 }
@@ -204,7 +221,7 @@ if (isset($_POST['complete_ticket_id'])) {
                             <th class="col-1">Return Date</th>
                             <th>Requested Tools</th>
                             <th>Request Timestamp</th>
-                            <th>Status</th>
+                            <th class="col-3">Status</th>
                             <th class="col-3">Actions</th>
                         </tr>
                     </thead>
@@ -225,10 +242,13 @@ if (isset($_POST['complete_ticket_id'])) {
                                     <td><?php echo htmlspecialchars($ticket['returning_date']); ?></td>
                                     <td><button class="btn btn-primary btn-sm" onclick="viewTools('<?php echo htmlspecialchars($ticket['tools_data']); ?>')">View Tools</button></td>
                                     <td><?php echo htmlspecialchars($ticket['approved_timestamp']); ?></td>
-                                    <td>Ongoing</td>
-                                 
                                     <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
+                                        <select class="form-select form-select-sm" onchange="updateStatus('<?php echo htmlspecialchars($ticket['request_id']); ?>', this.value)">
+                                            <option value="Ongoing" <?php echo $ticket['status'] == 'Ongoing' ? 'selected' : ''; ?>>Ongoing</option>
+                                            <option value="Ongoing-Released" <?php echo $ticket['status'] == 'Ongoing-Released' ? 'selected' : ''; ?>>Ongoing-Released</option>
+                                        </select>
+                                    </td>
+                                    <td>
                                         <button class="btn btn-success btn-sm" onclick="showCompleteModal('<?php echo htmlspecialchars($ticket['request_id']); ?>')">Complete</button>
                                         <button class="btn btn-danger btn-sm">Delete</button>
                                     </td>
@@ -281,7 +301,6 @@ if (isset($_POST['complete_ticket_id'])) {
                                     <td><?php echo htmlspecialchars($ticket['request_timestamp']); ?></td>
                                     <td>Completed</td>
                                     <td><?php echo htmlspecialchars($ticket['remark']); ?></td>
-                                    <td><?php echo $row['remark'] ?: 'Complete'; ?></td>
                                     <td><?php echo htmlspecialchars($ticket['completed_timestamp']); ?></td>
                                     <td>
                                         <button class="btn btn-primary btn-sm mb-2">View</button>

@@ -217,7 +217,6 @@ $result_completed = $conn->query($query_completed);
                     </table>
                 </div>
             </div>
-
             <!-- Completed Tab -->
             <div class="tab-pane fade" id="completed">
                 <h3>Completed Requests</h3>

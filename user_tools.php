@@ -30,6 +30,16 @@ if (isset($_SESSION['user_id'])) {
         exit();
     }
 } 
+
+// Fetch tools data from the database
+$query_tools = "SELECT * FROM tools";
+$result_tools = $conn->query($query_tools);
+$tools = [];
+if ($result_tools->num_rows > 0) {
+    while ($row = $result_tools->fetch_assoc()) {
+        $tools[] = $row;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,36 +104,21 @@ if (isset($_SESSION['user_id'])) {
     </div>
     <div class="content">
     <div class="grid">
-        <?php
-        require 'conn.php'; // Include the database connection
-
-        $sql = "SELECT * FROM tools";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="card">';
-                echo '<img src="' . $row['image_url'] . '" alt="' . $row['tool_name'] . '">';
-                echo '<p class="description">' . $row['category'] . ' | In Stock: ' . $row['stock_quantity'] . '</p>';
-                echo '<h3>' . $row['tool_name'] . '</h3>';
-                echo '<div class="quantity-selector">';
-                echo '<button onclick="decreaseQuantity(this)">-</button>';
-                echo '<span>1</span>';
-                echo '<button onclick="increaseQuantity(this)">+</button>';
-                echo '</div>';
-                echo '<button class="add-to-cart-btn" onclick="addToCart(\'' . $row['category'] . '\', \'' . $row['tool_name'] . '\', parseInt(this.previousElementSibling.querySelector(\'span\').textContent), \'' . $row['image_url'] . '\')">Add to Basket</button>';
-                echo '</div>';
-            }
-        } else {
-            echo '<p>No tools found in inventory.</p>';
-        }
-
-        $conn->close();
-        ?>
+        <?php foreach ($tools as $tool): ?>
+            <div class="card">
+                <img src="<?php echo $tool['image_url']; ?>" alt="<?php echo $tool['tool_name']; ?>">
+                <p class="description"><?php echo $tool['category']; ?> | In Stock: <?php echo $tool['stock_quantity']; ?></p>
+                <h3><?php echo $tool['tool_name']; ?></h3>
+                <div class="quantity-selector">
+                    <button onclick="decreaseQuantity(this)">-</button>
+                    <span>1</span>
+                    <button onclick="increaseQuantity(this)">+</button>
+                </div>
+                <button class="add-to-cart-btn" onclick="addToCart('<?php echo $tool['category']; ?>', '<?php echo $tool['tool_name']; ?>', parseInt(this.previousElementSibling.querySelector('span').textContent), '<?php echo $tool['image_url']; ?>')">Add to Basket</button>
+            </div>
+        <?php endforeach; ?>
     </div>
-    
 </div>
-
     </div>
     <div class="popup" id="cart-popup">
         <div class="popup-content">

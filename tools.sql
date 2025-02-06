@@ -115,3 +115,29 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- Update stock quantity after borrowing
+DELIMITER //
+CREATE TRIGGER update_stock_quantity AFTER UPDATE ON rental_requests
+FOR EACH ROW
+BEGIN
+    IF NEW.status = 'Approved' THEN
+        DECLARE tool_data JSON;
+        DECLARE tool_name VARCHAR(255);
+        DECLARE tool_quantity INT;
+        DECLARE tool_cursor CURSOR FOR
+            SELECT JSON_UNQUOTE(JSON_EXTRACT(tool, '$.name')), JSON_UNQUOTE(JSON_EXTRACT(tool, '$.quantity'))
+            FROM JSON_TABLE(NEW.tools_data, '$[*]' COLUMNS (tool JSON PATH '$')) AS tools;
+
+        OPEN tool_cursor;
+        tool_loop: LOOP
+            FETCH tool_cursor INTO tool_name, tool_quantity;
+            IF done THEN
+                LEAVE tool_loop;
+            END IF;
+            UPDATE tools SET stock_quantity = stock_quantity - tool_quantity WHERE tool_name = tool_name;
+        END LOOP;
+        CLOSE tool_cursor;
+    END IF;
+END//
+DELIMITER ;

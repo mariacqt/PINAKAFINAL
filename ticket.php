@@ -61,8 +61,8 @@ if (isset($_POST['approve_ticket_id'])) {
 // Handle ticket completion
 if (isset($_POST['complete_ticket_id'])) {
     $complete_ticket_id = $_POST['complete_ticket_id'];
-    $remarks = $_POST['remarks'];
-    $query_complete = "UPDATE rental_requests SET status = 'Completed', remarks = ? WHERE request_id = ?";
+    $remarks = $_POST['remark'];
+    $query_complete = "UPDATE rental_requests SET status = 'Completed', remark = ? WHERE request_id = ?";
     $stmt_complete = $conn->prepare($query_complete);
     $stmt_complete->bind_param("si", $remarks, $complete_ticket_id);
     $stmt_complete->execute();
@@ -261,7 +261,7 @@ if (isset($_POST['complete_ticket_id'])) {
                                     <td><button class="btn btn-primary btn-sm" onclick="viewTools('<?php echo htmlspecialchars($ticket['tools_data']); ?>')">View Tools</button></td>
                                     <td><?php echo htmlspecialchars($ticket['request_timestamp']); ?></td>
                                     <td>Completed</td>
-                                    <td><?php echo htmlspecialchars($ticket['remarks']); ?></td>
+                                    <td><?php echo htmlspecialchars($ticket['remark']); ?></td>
                                     <td>
                                         <button class="btn btn-primary btn-sm">View</button>
                                         <button class="btn btn-primary btn-sm">Edit</button>

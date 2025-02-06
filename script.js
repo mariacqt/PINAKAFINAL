@@ -85,7 +85,7 @@ function openCart() {
             <span><b>Item:</b> ${item.name} | ${item.category}</span>
             <div class="quantity-selector">
                 <button onclick="updateQuantity('${item.name}', -1)">-</button>
-                <span>${item.quantity}</span> <!-- Ensure correct quantity is displayed -->
+                <span>${item.quantity}</span> 
                 <button onclick="updateQuantity('${item.name}', 1)">+</button>
             </div>
         `;
@@ -123,13 +123,21 @@ function updateQuantity(name, change) {
         if (newQuantity >= 1 && newQuantity <= stockQuantity) {
             item.quantity = newQuantity;
             quantitySpan.textContent = newQuantity;
+        } else if (newQuantity === 0) {
+            // Remove item from cart if quantity is 0
+            const index = cart.indexOf(item);
+            if (index > -1) {
+                cart.splice(index, 1);
+            }
+            card.querySelector('.quantity-selector span').textContent = '1'; // Reset quantity selector
         }
 
         // Enable or disable the + button
         increaseButton.disabled = item.quantity >= stockQuantity;
-        }
+    }
     updateCartPopup(); // Ensure the cart popup is updated
 }
+
 function updateCartPopup() {
     const cartItems = document.getElementById('cart-items');
     cartItems.innerHTML = ''; // Clear existing items
@@ -141,7 +149,7 @@ function updateCartPopup() {
             <span><b>Item:</b> ${item.name} | ${item.category}</span>
             <div class="quantity-selector">
                 <button onclick="updateQuantity('${item.name}', -1)">-</button>
-                <span>${item.quantity}</span> <!-- Ensure correct quantity is displayed -->
+                <span>${item.quantity}</span> 
                 <button onclick="updateQuantity('${item.name}', 1)">+</button>
             </div>
         `;

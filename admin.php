@@ -2,6 +2,42 @@
 session_start();
 require 'conn.php'; // Include your database connection file
 
+function getActiveUsersCount($conn) {
+    $sql = "SELECT COUNT(*) as count FROM users WHERE status = 'approved'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Fetch the count from the result
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    } else {
+        return 0;
+    }
+}
+
+function getActiveUsers($conn) {
+    $sql = "SELECT user_id, username, email FROM users WHERE status = 'active'";
+    $result = $conn->query($sql);
+    $activeUsers = [];
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $activeUsers[] = $row;
+        }
+    }
+    return $activeUsers;
+}
+
+function getTicketCountByStatus($conn, $status) {
+    $sql = "SELECT COUNT(*) as count FROM rental_requests WHERE status = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $status);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row['count'];
+}
+
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true || !isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
     header("Location: login.php");
@@ -35,6 +71,7 @@ if (isset($_SESSION['user_id'])) {
     echo "User ID not set in session.";
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,14 +124,24 @@ if (isset($_SESSION['user_id'])) {
                 <!-- Dashboard Content -->
                 <div class="card mt-3">
                     <div class="card-body">
-                        <h5 class="card-title">Total Users</h5>
-                        <p class="card-text">There are <span id="totalUsers">X</span> registered users.</p>
+                        <h5 class="card-title">Total Active Users</h5>
+                        <?php
+                        $activeUsersCount = getActiveUsersCount($conn);
+                        ?>
+                        <p class="card-text">There are <span id="totalUsers"><?php echo $activeUsersCount; ?></span> active users.</p>
                     </div>
                 </div>
                 <div class="card mt-4">
                     <div class="card-body">
                         <h5 class="card-title">Total Tickets</h5>
-                        <p class="card-text">There are <span id="totalTickets">X</span> Total Tickets</p>
+                        <?php
+                        $pendingTickets = getTicketCountByStatus($conn, 'Pending');
+                        $approvedTickets = getTicketCountByStatus($conn, 'Approved');
+                        $completedTickets = getTicketCountByStatus($conn, 'Completed');
+                        ?>
+                        <p class="card-text">Pending: <span id="pendingTickets"><?php echo $pendingTickets; ?></span></p>
+                        <p class="card-text">Approved: <span id="approvedTickets"><?php echo $approvedTickets; ?></span></p>
+                        <p class="card-text">Completed: <span id="completedTickets"><?php echo $completedTickets; ?></span></p>
                     </div>
                 </div>
                 <div class="card mt-4">
@@ -108,6 +155,19 @@ if (isset($_SESSION['user_id'])) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
+        function fetchActiveUsers() {
+            fetch('fetch_active_users.php') // Call PHP script
+                .then(response => response.json()) // Convert response to JSON
+                .then(data => {
+                    document.getElementById('totalUsers').textContent = data.count; // Update the number in the UI
+                })
+                .catch(error => console.error('Error fetching active users:', error));
+        }
+
+        // Fetch active users count every 10 seconds
+        setInterval(fetchActiveUsers, 10000);
+        fetchActiveUsers(); // Fetch immediately on page load
+
         var xValues = ["Borrowed Tools", "Remaining Tools"];
         var yValues = [1, 2];
         var barColors = [
@@ -130,21 +190,6 @@ if (isset($_SESSION['user_id'])) {
               text: "Tool Usage Overview"
             }
           }
-        });
-
-        // Sample data update for dynamic dashboard
-        document.getElementById('totalUsers').textContent = 120;
-        document.getElementById('totalTickets').textContent = 45;
-        document.getElementById('borrowedTools').textContent = 35;
-        document.getElementById('unborrowedTools').textContent = 15;
-
-        const activities = ["User John borrowed a tool", "New user registered", "Tool #23 returned"];
-        const activityList = document.getElementById('recentActivities');
-        activities.forEach(activity => {
-            const li = document.createElement('li');
-            li.classList.add('list-group-item');
-            li.textContent = activity;
-            activityList.appendChild(li);
         });
     </script>
 </body>

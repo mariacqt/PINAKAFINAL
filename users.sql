@@ -49,6 +49,10 @@ INSERT INTO `users` (`user_id`, `student_number`, `username`, `email`, `password
 (25, 'a', 'a', 'a@gmail.com', '$2y$10$lKfJfjs7wnLq08DwFgkxZOBl2KD453NpdpKeBJjR3GgLknIWlExVa', '2025-02-03 19:13:09', 0, 'approved', '');
 
 --
+-- Fetch the number of active users
+SELECT COUNT(*) as active_users_count FROM users WHERE status = 'approved';
+
+--
 -- Indexes for dumped tables
 --
 

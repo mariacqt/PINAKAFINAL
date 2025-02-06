@@ -76,11 +76,11 @@ function openCart() {
         div.classList.add('cart-item');
         div.innerHTML = `
             <img src="${item.img}" alt="${item.name}">
-            <span><b>Item:</b> ${item.name} | ${item.category}</span>
+            <span><b>Item:</b> ${item.name} | ${item.category} &nbsp; = &nbsp;</span>
             <div class="quantity-selector">
-                <button onclick="updateQuantity('${item.name}', -1)">-</button>
+          
                 <span>${item.quantity}</span>
-                <button onclick="updateQuantity('${item.name}', 1)">+</button>
+                
             </div>
         `;
         cartItems.appendChild(div);

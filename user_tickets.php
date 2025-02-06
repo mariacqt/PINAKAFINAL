@@ -7,7 +7,11 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
     header("Location: login.php");
     exit();
 }
-
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
 $student_id = $_SESSION['user_id']; // Ensure correct session variable
 
 // Fetch user info
@@ -75,20 +79,35 @@ $conn->close();
     </header>
 
     <!-- Account Modal -->
-    <div class="modal fade" id="accountModal" tabindex="-1">
+    <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-dark-blue text-white text-center">
-                    <h5 class="modal-title w-100">Account Information</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title fw-bold w-100" id="accountModalLabel">Account Information</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Student Name:</strong> <?php echo htmlspecialchars($user['username']); ?></p>
-                    <p><strong>Student Number:</strong> <?php echo htmlspecialchars($user['student_number']); ?></p>
-                    <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
+                    <div class="mb-3">
+                        <label class="fw-bold">Student Name:</label>
+                        <div class="info-box">
+                            <span id="student-name"><?php echo htmlspecialchars($user['username']); ?></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Student Number:</label>
+                        <div class="info-box">
+                            <span id="student-number"><?php echo htmlspecialchars($user['student_number']); ?></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">Email:</label>
+                        <div class="info-box">
+                            <span id="email"><?php echo htmlspecialchars($user['email']); ?></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="?logout=true" class="btn btn-danger">Logout</a>
+                    <a href="?logout=true" class="btn btn-danger me-auto">Logout</a>
                 </div>
             </div>
         </div>

@@ -119,7 +119,7 @@ $conn->close();
     <div class="container">
         <h1>Rental Request Submitted Successfully!</h1>
         <p>Your rental request has been submitted successfully. You can manage your rental tools below:</p>
-        <a href="user_tools.php">Click here to go to your tools</a>
+        <a href="user_tickets.php">Click here to go to your requested tools</a>
     </div>
 </body>
 </html>

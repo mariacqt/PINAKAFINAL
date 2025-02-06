@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
 $student_id = $_SESSION['user_id']; // Ensure correct session variable
 
 // Fetch user info
-$query = "SELECT username, student_number, email FROM users WHERE student_id = ?";
+$query = "SELECT username, student_number, email FROM users WHERE user_id= ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $student_id);
 $stmt->execute();

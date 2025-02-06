@@ -37,22 +37,25 @@ if (isset($_SESSION['user_id'])) {
 }
 
 // Fetch pending users from the database
-$query = "SELECT user_id, student_number, username, email, cor FROM users WHERE status = 'pending'";
-$result = $conn->query($query);
+$query_pending = "SELECT user_id, student_number, username, email, cor FROM users WHERE status = 'pending'";
+$result_pending = $conn->query($query_pending);
+
+// Fetch active users from the database
+$query_active = "SELECT user_id, student_number, username, email FROM users WHERE status = 'approved'";
+$result_active = $conn->query($query_active);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link href="css/otheradmins.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/otheradmins.css?v=2">
     <title>User Management</title>
 </head>
-<body> 
+<body>
     <!-- Navbar -->
     <header class="bg-light border-bottom py-3 shadow-sm">
         <div class="container">
@@ -69,7 +72,7 @@ $result = $conn->query($query);
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item"><a class="nav-link" href="admin.php">Dashboard</a></li>
                             <li class="nav-item"><a class="nav-link" href="inventory.php">Inventory</a></li>
-                            <li class="nav-item"><a class="nav-link fw-bold" aria-current="page" href="">Manage Users</a></li>
+                            <li class="nav-item"><a class="nav-link fw-bold" aria-current="page" href="manageuser.php">Manage Users</a></li>
                             <li class="nav-item"><a class="nav-link" href="ticket.php">Tickets</a></li>
                             <a href="?logout=true" class="btn btn-primary rounded-pill px-4">Logout</a>
                             </li>
@@ -82,65 +85,60 @@ $result = $conn->query($query);
 
     <!-- User Management -->
     <div class="container mt-5">
-        <h1>User Management</h1>
-        <div class="row">
-            <div class="col-md-12">
-<!-- Pending Users Table -->
-                <div class="container mt-4">
-                <h2 class="text-center">Pending Users</h2>
+        <h1 class="text-center">User Management</h1>
+        <ul class="nav nav-tabs" id="userTabs">
+            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#pending">Pending Users</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#active">Active Users</a></li>
+        </ul>
+        <div class="tab-content mt-3">
+            <!-- Pending Users Tab -->
+            <div class="tab-pane fade show active" id="pending">
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col-6">Student Number/ Teacher Number</th>
+                                <th>#</th>
+                                <th>Student Number/Teacher Number</th>
                                 <th>Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Actions</th>
+                                <th>Email</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php while ($row = $result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($row['user_id']); ?></td>
-                                <td><?php echo htmlspecialchars($row['student_number']); ?></td>
-                                <td><?php echo htmlspecialchars($row['username']); ?></td>
-                                <td><?php echo htmlspecialchars($row['email']); ?></td>
-                                <td>
-                            <?php if (!empty($row['cor']) && $_SESSION['is_admin'] == 1): ?>
+                            <?php while ($row = $result_pending->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['student_number']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['username']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['email']); ?></td>
+                                    <td>
+                                        <?php if (!empty($row['cor']) && $_SESSION['is_admin'] == 1): ?>
                                             <a href="view_file.php?user_id=<?php echo urlencode($row['user_id']); ?>" class="btn btn-info btn-sm mb-2" target="_blank">View COR</a>
                                         <?php endif; ?>
-                                    <a href="approve_user.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-success btn-sm mb-2">Approve</a>
-                                    <a href="delete_user.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-danger btn-sm mb-2">Reject</a>
-                                </td>
-                            </tr>
+                                        <a href="approve_user.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-success btn-sm mb-2">Approve</a>
+                                        <a href="delete_user.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-danger btn-sm mb-2">Reject</a>
+                                    </td>
+                                </tr>
                             <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-<!-- Active Users Table -->
-                <div class="container mt-4">
-                <h2 class="text-center">Active Users</h2>
+            <!-- Active Users Tab -->
+            <div class="tab-pane fade" id="active">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered">
                         <thead class="table-dark">
                             <tr>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Student Number/ Teacher Number</th>
+                                <th>#</th>
+                                <th>Student Number/Teacher Number</th>
                                 <th>Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Actions</th>
-                            </tr>
+                                <th>Email</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Fetch and display active users from the database -->
-                            <?php
-                            $query = "SELECT user_id, student_number, username, email FROM users WHERE status = 'approved'";
-                            $result = $conn->query($query);
-                            while ($row = $result->fetch_assoc()): ?>
+                            <?php while ($row = $result_active->fetch_assoc()): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($row['user_id']); ?></td>
                                     <td><?php echo htmlspecialchars($row['student_number']); ?></td>
@@ -154,7 +152,6 @@ $result = $conn->query($query);
                             <?php endwhile; ?>
                         </tbody>
                     </table>
-                </div>
                 </div>
             </div>
         </div>

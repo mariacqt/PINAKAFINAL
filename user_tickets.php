@@ -117,7 +117,7 @@ $result_completed = $conn->query($query_completed);
     </div>
     <!-- Ticket Tabs -->
     <div class="container mt-5">
-        <h1 class="text-center">Manage Tickets</h1>
+        <h1 class="text-center">Tickets Transactions</h1>
 
         <ul class="nav nav-tabs" id="requestTabs">
             <li class="nav-item">

@@ -10,8 +10,11 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
 
 // Fetch rental requests
 $query_all = "SELECT * FROM rental_requests";
-$result_all = $conn->query($query_all);
 
+$result_all = $conn->query($query_all);
+if (!$result_all) {
+    die("Database query failed: " . $conn->error); // Debugging error message
+}
 if (!$result_all) {
     die("Database query failed: " . $conn->error); // Debugging error message
 }
@@ -61,14 +64,29 @@ if (isset($_POST['approve_ticket_id'])) {
 // Handle ticket completion
 if (isset($_POST['complete_ticket_id'])) {
     $complete_ticket_id = $_POST['complete_ticket_id'];
-    $remarks = $_POST['remark'];
-    $query_complete = "UPDATE rental_requests SET status = 'Completed', remark = ? WHERE request_id = ?";
+    $remarks = $_POST['remarks']; // Ensure 'remarks' is the correct field name from your form
+
+    // Prepare the update query
+    $query_complete = "UPDATE rental_requests 
+                       SET status = 'Completed', 
+                           remark = ?, 
+                           completed_timestamp = NOW() 
+                       WHERE request_id = ?";
     $stmt_complete = $conn->prepare($query_complete);
     $stmt_complete->bind_param("si", $remarks, $complete_ticket_id);
-    $stmt_complete->execute();
-    header("Location: ticket.php");
-    exit();
+
+    // Execute the query
+    if ($stmt_complete->execute()) {
+        header("Location: ticket.php"); // Redirect to the same page after completing
+        exit();
+    } else {
+        echo "Error updating ticket: " . $stmt_complete->error;
+    }
 }
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -240,6 +258,7 @@ if (isset($_POST['complete_ticket_id'])) {
                             <th>Request Timestamp</th>
                             <th>Status</th>
                             <th>Remarks</th>
+                            <th>Completed On</th>
                             <th class="col-3">Actions</th>
                         </tr>
                     </thead>
@@ -262,6 +281,7 @@ if (isset($_POST['complete_ticket_id'])) {
                                     <td><?php echo htmlspecialchars($ticket['request_timestamp']); ?></td>
                                     <td>Completed</td>
                                     <td><?php echo htmlspecialchars($ticket['remark']); ?></td>
+                                    <td><?php echo htmlspecialchars($ticket['completed_timestamp']); ?></td>
                                     <td>
                                         <button class="btn btn-primary btn-sm">View</button>
                                         <button class="btn btn-primary btn-sm">Edit</button>
@@ -300,23 +320,23 @@ if (isset($_POST['complete_ticket_id'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post">
-                    <div class="modal-body">
                         <input type="hidden" name="complete_ticket_id" id="complete_ticket_id">
                         <div class="mb-3">
                             <label for="remarks" class="form-label">Remarks</label>
-                            <select class="form-select" name="remarks" id="remarks" required>
+                            <select class="form-select" name="remark" id="remarks" required>
                                 <option value="Complete">Complete</option>
                                 <option value="Missing">Missing</option>
                                 <option value="Late">Late</option>
                                 <option value="Broken">Broken</option>
                             </select>
+
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+
             </div>
         </div>
     </div>

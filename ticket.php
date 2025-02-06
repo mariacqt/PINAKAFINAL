@@ -64,8 +64,8 @@ if (isset($_POST['approve_ticket_id'])) {
 // Handle ticket completion
 if (isset($_POST['complete_ticket_id'])) {
     $complete_ticket_id = $_POST['complete_ticket_id'];
-    $remarks = $_POST['remarks']; // Ensure 'remarks' is the correct field name from your form
-
+    $remarks = $_POST['remark']; // Ensure 'remarks' is the correct field name from your form
+    
     // Prepare the update query
     $query_complete = "UPDATE rental_requests 
                        SET status = 'Completed', 

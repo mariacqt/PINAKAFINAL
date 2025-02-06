@@ -70,7 +70,7 @@
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center mb-4">
                 <div class="team-card shadow-sm p-3">
-                    <img src="images/avatar.jpg" alt="Mark Reinier Garcia" class="img-fluid rounded-circle team-photo mb-3">
+                    <img src="images/mark.jpg" alt="Mark Reinier Garcia" class="img-fluid rounded-circle team-photo mb-3">
                     <h5>Mark Reinier Garcia</h5>
                 </div>
             </div>

@@ -8,7 +8,7 @@ if (isset($_GET['logout'])) {
 }
 
 // Database connection
-$conn = new mysqli("localhost", "username", "password", "database");
+include 'conn.php';
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2025 at 01:11 PM
+-- Generation Time: Feb 06, 2025 at 01:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,12 +43,12 @@ CREATE TABLE `tools` (
 INSERT INTO `tools` (`tool_id`, `tool_name`, `category`, `stock_quantity`, `image_url`, `status`) VALUES
 (1, 'Banana Split Plate', 'Glassware', 30, 'tools/banana-split-plate.png', 'available'),
 (2, 'Bar Spoon', 'Silverware', 45, 'tools/bar-spoon.png', 'available'),
-(3, 'Bar Tray', 'Servingware', 15, 'tools/bar-tray.png', 'available'),
+(3, 'Bar Tray', 'Servingware', 0, 'tools/bar-tray.png', 'available'),
 (4, 'Beer Mug', 'Glassware', 0, 'tools/beer-mug.png', 'available'),
 (5, 'Bread Knife', 'Silverware', 15, 'tools/bread-knife.png', 'available'),
 (6, 'Butcher Knife', 'Silverware', 2, 'tools/butcher-knife.png', 'available'),
 (7, 'Butter Knife', 'Silverware', 50, 'tools/butter-knife.png', 'available'),
-(8, 'Cake Slicer', 'Silverware', 2, 'tools/cake-slicer.png', 'available'),
+(8, 'Cake Slicer', 'Silverware', 0, 'tools/cake-slicer.png', 'out_of_stock'),
 (9, 'Ceramic Ramekin', 'Baking Tools', 50, 'tools/ceramic-ramekin.png', 'available'),
 (10, 'Champagne', 'Glassware', 2, 'tools/champagne.png', 'available'),
 (11, 'Glass Pitcher', 'Glassware', 50, 'tools/glass-pitcher.png', 'available'),
@@ -92,6 +92,20 @@ INSERT INTO `tools` (`tool_id`, `tool_name`, `category`, `stock_quantity`, `imag
 (49, 'Wooden Plate', 'Tableware', 50, 'tools/wooden-plate.png', 'available');
 
 --
+-- Triggers `tools`
+--
+DELIMITER $$
+CREATE TRIGGER `update_stock_status` BEFORE UPDATE ON `tools` FOR EACH ROW BEGIN
+    IF NEW.stock_quantity = 0 THEN
+        SET NEW.status = 'out_of_stock';
+    ELSE
+        SET NEW.status = 'available';
+    END IF;
+END
+$$
+DELIMITER ;
+
+--
 -- Indexes for dumped tables
 --
 
@@ -109,7 +123,7 @@ ALTER TABLE `tools`
 -- AUTO_INCREMENT for table `tools`
 --
 ALTER TABLE `tools`
-  MODIFY `tool_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `tool_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

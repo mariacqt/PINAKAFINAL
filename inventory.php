@@ -107,39 +107,40 @@ $result = $conn->query($sql);
                                 ?>
                             </tbody>
                         </table>
-                    </div>
+                        </div>
                 </div>
-
-                <!-- Add Item Form -->
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Add New Item</h5>
-                        <form action="add_item.php" method="POST" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="itemName" class="form-label">Item Name</label>
-                                <input type="text" class="form-control" id="itemName" name="tool_name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="category" class="form-label">Category</label>
-                                <input type="text" class="form-control" id="category" name="category" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" name="stock_quantity" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-select" id="status" name="status" required>
-                                    <option value="available">Available</option>
-                                    <option value="out_of_stock">Out of Stock</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Image</label>
-                                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Add Item</button>
-                        </form>
+                <!-- Add Item Tab -->
+                <div class="tab-pane fade" id="addItem">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Add New Item</h5>
+                            <form action="add_item.php" method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="itemName" class="form-label">Item Name</label>
+                                    <input type="text" class="form-control" id="itemName" name="tool_name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Category</label>
+                                    <input type="text" class="form-control" id="category" name="category" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="quantity" class="form-label">Quantity</label>
+                                    <input type="number" class="form-control" id="quantity" name="stock_quantity" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select class="form-select" id="status" name="status" required>
+                                        <option value="available">Available</option>
+                                        <option value="out_of_stock">Out of Stock</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Image</label>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Item</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

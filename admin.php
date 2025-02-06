@@ -53,6 +53,15 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
+// SQL query to get the total count of available tools
+$query = "SELECT COUNT(*) AS total_tools FROM tools WHERE status = 'available'";
+$result = mysqli_query($conn, $query);
+
+// Fetch the result
+$row = mysqli_fetch_assoc($result);
+$total_tools = $row['total_tools'] ? $row['total_tools'] : 0;
+
+
 // Fetch admin data from the database
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -147,7 +156,7 @@ if (isset($_SESSION['user_id'])) {
                 <div class="card mt-4">
                     <div class="card-body">
                         <h5 class="card-title">Total Inventory</h5>
-                        <p class="card-text"><span id="borrowedTools">X</span> Borrowed, <span id="unborrowedTools">Y</span> Unborrowed</p>
+                        <p class="card-text">Total Tools:  <?php echo $total_tools; ?></p>
                     </div>
                 </div>
             </div>

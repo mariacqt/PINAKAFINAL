@@ -130,16 +130,16 @@ if (isset($_SESSION['user_id'])) {
         <div class="container">
             <h2 class="fw-bold text-center mb-4">Latest Announcements</h2>
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">
+                <div class="list-group-item list-group-item-action">
                     <h5 class="mb-1">New Kitchen Tools Added to Inventory</h5>
                     <p class="mb-1">Discover the latest kitchen tools available for borrowing now!</p>
                     <small>Posted on January 15, 2025</small>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
+                </div>
+                <div class="list-group-item list-group-item-action">
                     <h5 class="mb-1">Scheduled Maintenance</h5>
                     <p class="mb-1">Our platform will undergo maintenance on January 20, 2025.</p>
                     <small>Posted on January 5, 2025</small>
-                </a>
+                </div>
             </div>  
         </div>
     </section>

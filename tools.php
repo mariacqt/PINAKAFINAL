@@ -13,23 +13,22 @@ session_start();
     <script>
     function checkLogin() {
         <?php if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
-            alert("You should login first before you proceed.");
+            alert("You need to login first.");
             return false;
         <?php else: ?>
-            submitRentalRequest();
             return true;
         <?php endif; ?>
     }
 
-    function addToBasket() {
-        <?php if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
-            alert("You need to login first before adding items to the basket.");
-            return false;
-        <?php else: ?>
-            // Code to add item to basket
-            alert("Item added to basket.");
-            return true;
-        <?php endif; ?>
+    function addToBasket(category, name, quantity, img) {
+        if (!checkLogin()) return;
+        // Code to add item to basket
+        alert("You need to login first");
+    }
+
+    function filterCards() {
+        if (!checkLogin()) return;
+        // Code to filter cards
     }
     </script>
 </head>
@@ -66,17 +65,17 @@ session_start();
         <div class="filter-group">
             <br>
             <h3>Availability</h3>
-            <label><input type="checkbox"> In Stock</label>
-            <label><input type="checkbox"> Out of Stock</label>
+            <label><input type="checkbox" onclick="filterCards()"> In Stock</label>
+            <label><input type="checkbox" onclick="filterCards()"> Out of Stock</label>
         </div>
         <div class="filter-group">
             <br>
             <h3>Categories</h3>
-            <label><input type="checkbox"> Baking Tools</label>
-            <label><input type="checkbox"> Bar Tools</label>
-            <label><input type="checkbox"> Glassware</label> <!-- Ensure this matches the card description -->
-            <label><input type="checkbox"> Kitchenware</label>
-            <label><input type="checkbox"> Servingware</label>
+            <label><input type="checkbox" onclick="filterCards()"> Baking Tools</label>
+            <label><input type="checkbox" onclick="filterCards()"> Bar Tools</label>
+            <label><input type="checkbox" onclick="filterCards()"> Glassware</label> <!-- Ensure this matches the card description -->
+            <label><input type="checkbox" onclick="filterCards()"> Kitchenware</label>
+            <label><input type="checkbox" onclick="filterCards()"> Servingware</label>
         </div>
     </div>
 

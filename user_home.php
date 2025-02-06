@@ -140,11 +140,6 @@ if (isset($_SESSION['user_id'])) {
                     <p class="mb-1">Our platform will undergo maintenance on January 20, 2025.</p>
                     <small>Posted on January 5, 2025</small>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                    <h5 class="mb-1">Tool Safety Guidelines Updated</h5>
-                    <p class="mb-1">We’ve updated our tool safety guidelines to ensure safety for all users.</p>
-                    <small>Posted on December 20, 2024</small>
-                </a>
             </div>  
         </div>
     </section>

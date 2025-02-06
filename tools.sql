@@ -103,6 +103,13 @@ CREATE TRIGGER `update_stock_status` BEFORE UPDATE ON `tools` FOR EACH ROW BEGIN
     END IF;
 END
 $$
+DELIMITER $$
+CREATE TRIGGER `before_insert_tools` BEFORE INSERT ON `tools` FOR EACH ROW BEGIN
+    DECLARE max_id INT;
+    SELECT IFNULL(MAX(tool_id), 0) INTO max_id FROM tools;
+    SET NEW.tool_id = max_id + 1;
+END
+$$
 DELIMITER ;
 
 --
@@ -124,7 +131,7 @@ ALTER TABLE `tools`
 -- AUTO_INCREMENT for table `tools`
 --
 ALTER TABLE `tools`
-  MODIFY `tool_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `tool_id` int(11) NOT NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -8,10 +8,21 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
     exit();
 }
 
-// Fetch rental requests
-$query_all = "SELECT * FROM rental_requests";
+// Handle search
+$search_query = "";
+if (isset($_GET['search'])) {
+    $search_query = $_GET['search'];
+    $query_all = "SELECT * FROM rental_requests WHERE student_name LIKE ?";
+    $stmt_search = $conn->prepare($query_all);
+    $search_param = "%" . $search_query . "%";
+    $stmt_search->bind_param("s", $search_param);
+    $stmt_search->execute();
+    $result_all = $stmt_search->get_result();
+} else {
+    $query_all = "SELECT * FROM rental_requests";
+    $result_all = $conn->query($query_all);
+}
 
-$result_all = $conn->query($query_all);
 if (!$result_all) {
     die("Database query failed: " . $conn->error); // Debugging error message
 }
@@ -173,6 +184,10 @@ if (isset($_POST['reject_ticket_id'])) {
     <!-- Request Tabs -->
     <div class="container mt-5">
         <h1 class="text-center">Manage Tickets</h1>
+        <form class="d-flex mb-3" method="GET" action="ticket.php">
+            <input class="form-control me-2" type="search" name="search" placeholder="Search by student name" aria-label="Search" value="<?php echo htmlspecialchars($search_query); ?>" oninput="checkSearchInput(this)">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
         <ul class="nav nav-tabs" id="requestTabs">
             <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#pending">Pending</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#approved">Approved</a></li>
@@ -409,6 +424,12 @@ if (isset($_POST['reject_ticket_id'])) {
             document.getElementById('complete_ticket_id').value = ticketId;
             var completeModal = new bootstrap.Modal(document.getElementById('completeModal'));
             completeModal.show();
+        }
+
+        function checkSearchInput(input) {
+            if (input.value === "") {
+                window.location.href = "ticket.php";
+            }
         }
     </script>
    

@@ -43,6 +43,22 @@ $result_pending = $conn->query($query_pending);
 // Fetch active users from the database
 $query_active = "SELECT user_id, student_number, username, email FROM users WHERE status = 'approved'";
 $result_active = $conn->query($query_active);
+
+// Handle user update
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_user'])) {
+    $user_id = $_POST['user_id'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $student_number = $_POST['student_number'];
+
+    $query_update = "UPDATE users SET username = ?, email = ?, student_number = ? WHERE user_id = ?";
+    $stmt_update = $conn->prepare($query_update);
+    $stmt_update->bind_param("sssi", $username, $email, $student_number, $user_id);
+    $stmt_update->execute();
+
+    header("Location: manageuser.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -145,10 +161,40 @@ $result_active = $conn->query($query_active);
                                     <td><?php echo htmlspecialchars($row['username']); ?></td>
                                     <td><?php echo htmlspecialchars($row['email']); ?></td>
                                     <td>
-                                        <a href="edit_user.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-primary btn-sm mb-2">Edit</a>
+                                        <button class="btn btn-primary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#editUserModal<?php echo $row['user_id']; ?>">Edit</button>
                                         <a href="delete_user.php?user_id=<?php echo $row['user_id']; ?>" class="btn btn-danger btn-sm mb-2">Delete</a>
                                     </td>
                                 </tr>
+
+                                <!-- Edit User Modal -->
+                                <div class="modal fade" id="editUserModal<?php echo $row['user_id']; ?>" tabindex="-1" aria-labelledby="editUserModalLabel<?php echo $row['user_id']; ?>" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editUserModalLabel<?php echo $row['user_id']; ?>">Edit User</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="manageuser.php">
+                                                    <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
+                                                    <div class="mb-3">
+                                                        <label for="username" class="form-label">Name</label>
+                                                        <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($row['username']); ?>" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="email" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($row['email']); ?>" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="student_number" class="form-label">Student Number/Teacher Number</label>
+                                                        <input type="text" class="form-control" id="student_number" name="student_number" value="<?php echo htmlspecialchars($row['student_number']); ?>" required>
+                                                    </div>
+                                                    <button type="submit" name="update_user" class="btn btn-success">Update</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php endwhile; ?>
                         </tbody>
                     </table>

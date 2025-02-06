@@ -30,6 +30,12 @@ session_start();
         if (!checkLogin()) return;
         // Code to filter cards
     }
+
+    function checkSearchInput(input) {
+        if (input.value === "") {
+            window.location.href = "tools.php";
+        }
+    }
     </script>
 </head>
 <body>
@@ -38,10 +44,10 @@ session_start();
             <img src="icons/hm-pup.png" alt="Logo" style="width: 155px; height: 30px;">
         </div>
         <div class="search-bar">
-            <input type="text" placeholder="Search for tools...">
-            <button>
-                <img src="icons/search-icon.png" alt="Search Icon" class="search-icon">
-            </button>
+            <form class="d-flex mb-3" method="GET" action="tools.php">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search for tools..." aria-label="Search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" oninput="checkSearchInput(this)">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </div>
         <div class="flex-container">
             <a href="index.php">Home</a>
@@ -83,8 +89,21 @@ session_start();
         <div class="grid">
             <?php
             require 'conn.php'; // Include the database connection
-            $sql = "SELECT * FROM tools";
-            $result = $conn->query($sql);
+
+            // Handle search
+            $search_query = "";
+            if (isset($_GET['search'])) {
+                $search_query = $_GET['search'];
+                $sql = "SELECT * FROM tools WHERE tool_name LIKE ?";
+                $stmt_search = $conn->prepare($sql);
+                $search_param = "%" . $search_query . "%";
+                $stmt_search->bind_param("s", $search_param);
+                $stmt_search->execute();
+                $result = $stmt_search->get_result();
+            } else {
+                $sql = "SELECT * FROM tools";
+                $result = $conn->query($sql);
+            }
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {

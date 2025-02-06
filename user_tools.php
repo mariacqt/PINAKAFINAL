@@ -101,7 +101,7 @@ if ($result_tools->num_rows > 0) {
             <label><input type="checkbox"> Tableware</label>
             <span class="clear-btn" onclick="clearFilters()">Clear</span>
         </div>
-    </div>
+        </div>
     <div class="content">
     <div class="grid">
         <?php foreach ($tools as $tool): ?>
